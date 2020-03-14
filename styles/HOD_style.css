@@ -1,0 +1,895 @@
+
+#outer{
+/*margin:50px;
+margin-top: 0px;
+background-color: rgba(0,0,0,0.25);
+padding: 20px;
+height: 100vh;*/
+
+margin-bottom: 15px;
+margin-left: 100px;
+margin-right: 15px;
+margin-top: 15px;
+/*background-color: rgba(0,0,0,0.25);*/
+padding-: 20px;
+min-height: 950px;
+border-radius: 2%;
+box-shadow: 0 8px 16px 0 rgba(0,0,0,0.8), 0 6px 20px 0 rgba(0,0,0,0.8);
+height: auto;
+
+background: transparent;
+
+
+
+}
+body{
+  font-family: sans-serif;
+
+  /* Set a background color that will be displayed
+     while the background image is loading 
+     background-color: #464646;*/
+     text-align: center;
+
+     background-image: 
+
+     linear-gradient(
+      rgba(0, 0, 0, 0.8), 
+      rgba(0, 0, 0, 0.8)
+      ),  
+     url(../images/index_bg.jpg);  
+     /* Background image is centered vertically and horizontally at all times */
+     background-position: center center;
+
+     /* Background image doesn't tile */
+     background-repeat: no-repeat;
+
+  /* Background image is fixed in the viewport so that it doesn't move when 
+  the content's height is greater than the image's height */
+  background-attachment: fixed;
+  
+  /* makes the background image rescale based
+  on the container's size */
+  background-size: cover;
+  background-color: #464646;
+}
+
+
+#h1 {
+
+  font-family: sans-serif;
+  background-color: rgba(0,0,0,0.25);
+  font-weight: normal;
+  font-style: normal;
+  text-align: center;
+  width: 650px;
+  color: rgba(255,255,255,0.75); 
+  display: inline-block;
+  font-size: 1.3vw;
+  margin-top: 20px;
+
+  padding-top: 10px;
+  border-style: outset;
+  border-width: 1px 8px 8px 1px;
+  border-color: rgb(0,0,0);
+  padding-bottom: 10px;
+
+}
+
+
+#h2 {  font-family: sans-serif;
+  background-color: rgba(0,0,0,0.25);
+  font-weight: normal;
+  font-style: normal;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 1.3vw; 
+  margin-top: 10px;
+  width: 700px;
+  display: inline-block;
+  border-style: outset;
+  border-width: 1px 8px 8px 1px;
+  border-color: rgb(0,0,0);
+  color: rgba(255,255,255,0.75); 
+}
+
+
+body{
+  font-family:"Arial", Serif;
+  background-color:#f4f4f4;
+  overflow-x:hidden;
+}
+
+
+
+
+
+
+#main{
+  transition:margin-left 0.5s;
+  padding:20px;
+  text-align: center;
+  width:100%;
+  background: transparent;
+  height: 100%;
+  overflow: auto;
+}
+
+#content{
+
+  background: white;
+  z-index: 1;
+  padding: 20px;  
+  display: none;
+  text-align: left;
+
+  
+}
+#content h1{
+  background: white;
+}
+
+#Courses{
+  background: #FFF8DC;
+  height: 100%;
+  display: none;
+  width: 100%;
+  padding: 20px;
+}
+
+#allocateFaculty{
+  background: #FFF8DC;
+  height: 100%;
+  display: none;
+  width: 100%;
+  padding: 20px;
+}
+
+/*.dropdown-menu{
+  display: none;
+
+}
+.dropdown-menu a{
+   padding:10px 10px 10px 30px;
+  text-decoration:none;
+  font-size:18px;
+  color:#ccc;
+  display:block;
+  transition:0.3s;
+  margin-top: 2px;
+   
+
+}
+*/
+#pdf{
+
+  background: black;
+  color: white;
+  font-size: 1.8vw;
+  padding: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 5px;
+  margin-left: 350px;
+  margin-top: 15px;
+  text-decoration: none;
+  font-style: italic;
+  font-family: sans-serif;
+  border:2px solid #ffffff;
+  color: #FFFFFF;
+  text-decoration-color: white;
+  border-radius: 50px;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.8), 0 6px 20px 0 rgba(0,0,0,0.8);
+  display: none;
+}
+
+#pdf: hover{
+  cursor: pointer;
+  background: #23ddda;
+  color: #000;
+
+}
+
+
+
+
+
+
+.table-wrapper {
+  width: 80%;
+  margin: 30px auto;
+  background: #fff;
+  padding: 20px;  
+  box-shadow: 0 1px 1px rgba(0,0,0,.05);
+  overflow-x:auto;
+}
+ .table-title .add-new {
+        float: right;
+    height: 30px;
+    font-weight: bold;
+    font-size: 12px;
+    text-shadow: none;
+    min-width: 100px;
+    border-radius: 50px;
+    line-height: 13px;
+    background: #8B4513;
+    border-color: #8B4513;
+    color: white;
+    }
+  .table-title .add-new i {
+    margin-right: 4px;
+  }
+    
+    table.table th i {
+        font-size: 13px;
+        margin: 0 5px;
+        cursor: pointer;
+    }
+    table.table th:last-child {
+        width: 100px;
+    }
+    table.table td a {
+    cursor: pointer;
+        display: inline-block;
+        margin: 0 5px;
+    min-width: 24px;
+    }    
+  table.table td a.add {
+        color: #27C46B;
+    }
+    table.table td a.edit {
+        color: #FFC107;
+    }
+    table.table td a.delete {
+        color: #E34724;
+    }
+    table.table td i {
+        font-size: 19px;
+    }
+  table.table td a.add i {
+        font-size: 24px;
+      margin-right: -1px;
+        position: relative;
+        top: 3px;
+    }    
+    table.table .form-control {
+        height: 32px;
+        line-height: 32px;
+        box-shadow: none;
+        border-radius: 2px;
+    }
+  table.table .form-control.error {
+    border-color: #f50000;
+  }
+  
+  table.table td .add {
+    display: none;
+  }
+table.table .form-control .input[type=text] {
+    width: 10px;
+  }
+
+#Faculty{
+  background: white;
+  height: 100%;
+  display: none;
+  width: 100%;
+}
+#showFaculty{
+  background: white;
+  height: 100%;
+  
+  width: 100%;
+}
+#state{
+
+
+  background: #FFF8DC;
+  height: 100%;
+  
+  width: 100%;
+
+}
+#status{
+  padding: 8px 8px;
+  text-align: center;
+  background-color: #8B4513; 
+  color: white; 
+  font-size: 16px;
+  margin: 4px 2px;
+  border-radius: 10px;
+}
+
+#Questions{
+  background: white;
+  height: 100%;
+  display: none;
+  width: 100%;
+}
+#showStudent{
+  background: white;
+  height: 100%;
+  
+  width: 100%;
+}
+
+#Student{
+  /*box-sizing: border-box;
+  margin-right: 0px;
+  padding-right: 0;
+  display: none;
+  width: 100%;
+  z-index: 1;*/
+  background: white;
+  min-height: 70vw;
+  height: auto;
+  display: none;
+  min-width: 70vw;
+  width: auto;
+}
+
+
+/* Add padding to containers */
+.addStudent {
+  /*padding: 16px;
+  margin: 0px;
+  width: 500px;
+  background-color: white;*/
+  width: 80%;
+  margin: 30px auto;
+  background: #fff;
+  padding: 20px;  
+  box-shadow: 0 1px 1px rgba(0,0,0,.05);
+
+}
+
+/* Full-width input fields */
+input[type=text], input[type=number], input[type=email], input[type=password] {
+  width: 150px;
+  padding: 15px;
+  margin: 5px 0px 22px 0px;
+  display:inline-block;
+  border: none;
+  background: #f1f1f1;
+
+
+
+}
+#stu_rollno{
+  margin-right: 510px;
+}
+#stu_deptid{
+  margin-right: 500px;
+}
+#stu_lname{
+  margin-right: 100px;
+}
+#stu_class,#stu_section, #stu_batch{
+
+  width: 125px;
+}
+#stu_section{
+  margin-right: 110px;
+}
+
+#stu_pwd{
+  margin-right:300px;
+}
+input[type=text]:focus, input[type=number]:focus, input[type=email]:focus, input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for the submit button */
+.registerbtn{
+
+  background: black;
+  color: white;
+  font-size: 1.6vw;
+  padding: 6px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 5px;
+  margin-left: 100px;
+  margin-top: 15px;
+  text-decoration: none;
+  font-style: italic;
+  font-family: sans-serif;
+  border:2px solid #ffffff;
+  color: #FFFFFF;
+  text-decoration-color: white;
+  border-radius: 50px;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.8), 0 6px 20px 0 rgba(0,0,0,0.8);
+}
+
+.registerbtn: hover{
+  cursor: pointer;
+  background: #23ddda;
+  color: #000;
+
+}
+
+
+#logo{
+  width: 60px;
+  height: 60px;
+  margin-left: 25px;
+  border-radius: 50%;
+  margin-top: 10px;
+}
+
+#shrunkinside {
+  width: 70px;      /* Set a specific width */
+  background-color: transparent;
+  margin-top: -40px;
+
+
+
+  /* Dark-grey background */
+}
+
+#shrunkinside a {
+  display: block;     /* Make the links appear below each other instead of side-by-side */
+  text-align: center;   /* Center-align text */
+  padding: 20px;      /* Add some padding */
+  transition: all 0.3s ease; /* Add transition for hover effects */
+  color: white;       /* White text color */
+  font-size: 36px;  
+  box-shadow: 5px 10px 50px #000; /* Increased font-size */
+  height: 90px;
+  width: 70px;
+
+}
+#home{
+  background: black;
+}
+#shrunk .icon-bar a:hover {
+  background-color: black; /* Add a hover color */
+}
+
+
+
+#shrunk{
+  padding: 25px;
+
+  margin-top: 100px;
+  height: 580px; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: absolute; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  float: left;
+
+
+}
+
+
+#expandedinside {
+  width: 200px;      /* Set a specific width */
+  background-color: transparent;
+  margin-top: -40px;
+  display: none;
+
+
+  /* Dark-grey background */
+}
+
+.a {
+  display: none;     /* Make the links appear below each other instead of side-by-side */
+  text-align: left;   /* Center-align text */
+  padding: 20px;      /* Add some padding */
+  transition: all 0.3s ease; /* Add transition for hover effects */
+  color: white;       /* White text color */
+  font-size: 36px;  
+  box-shadow: 5px 10px 50px #000; /* Increased font-size */
+  height: 90px;
+  width: 250px;
+
+}
+#home{
+  background: black;
+}
+#expandedinside a:hover {
+  background-color: black; /* Add a hover color */
+}
+
+
+
+#expanded{
+  padding: 25px;
+
+  margin-top: 100px;
+  height: 580px; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: absolute; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  float: left;
+
+
+}
+
+
+#ques{
+  width: 200px;
+}
+#score1{
+  width: 100px;
+}
+#score2{
+  width: 100px;
+}
+
+
+
+.input-row {
+  margin-top: 0px;
+  margin-bottom: 20px;
+}
+
+.btn-submit {
+  background: #333;
+  border: #1d1d1d 1px solid;
+  color: #f0f0f0;
+  font-size: 0.9em;
+  width: 100px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.row{
+  background: white;
+}
+
+
+/*Update form*/
+.form-style-9{
+  max-width: 800px;
+  background: #FAFAFA;
+  padding: 30px;
+  margin: 50px auto;
+  box-shadow: 1px 1px 25px rgba(0, 0, 0, 0.35);
+  border-radius: 10px;
+  border: 6px solid #305A72;
+}
+
+
+/*tabs*/
+
+.with-nav-tabs.panel-forms .nav-tabs{
+  width: 65vw;
+
+}
+.with-nav-tabs.panel-forms .nav-tabs > li > a,
+.with-nav-tabs.panel-forms .nav-tabs > li > a:hover,
+.with-nav-tabs.panel-forms .nav-tabs > li > a:focus {
+  color: #a94442;
+}
+
+.with-nav-tabs.panel-forms .nav-tabs > li.active > a{
+ color: #3933FF;
+}
+.with-nav-tabs.panel-forms .nav-tabs > .open > a,
+.with-nav-tabs.panel-forms .nav-tabs > .open > a:hover,
+.with-nav-tabs.panel-forms .nav-tabs > .open > a:focus,
+.with-nav-tabs.panel-forms .nav-tabs > li > a:hover,
+.with-nav-tabs.panel-forms .nav-tabs > li > a:focus {
+
+  background-color: #ebccd1;
+  border-color: transparent;
+}
+.with-nav-tabs.panel-forms .nav-tabs > li.active > a,
+.with-nav-tabs.panel-forms .nav-tabs > li.active > a:hover,
+.with-nav-tabs.panel-forms .nav-tabs > li.active > a:focus {
+
+  background-color: #fff;
+  border-color: #ebccd1;
+  border-bottom-color: transparent;
+}
+.with-nav-tabs.panel-danger .nav-tabs > li.dropdown .dropdown-menu {
+  background-color: #f2dede; /* bg color */
+  border-color: #ebccd1; /* border color */
+}
+.with-nav-tabs.panel-danger .nav-tabs > li.dropdown .dropdown-menu > li > a {
+  color: #a94442; /* normal text color */  
+}
+.with-nav-tabs.panel-danger .nav-tabs > li.dropdown .dropdown-menu > li > a:hover,
+.with-nav-tabs.panel-danger .nav-tabs > li.dropdown .dropdown-menu > li > a:focus {
+  background-color: #ebccd1; /* hover bg color */
+}
+.with-nav-tabs.panel-danger .nav-tabs > li.dropdown .dropdown-menu > .active > a,
+.with-nav-tabs.panel-danger .nav-tabs > li.dropdown .dropdown-menu > .active > a:hover,
+.with-nav-tabs.panel-danger .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
+  color: #fff; /* active text color */
+  background-color: #a94442; /* active bg color */
+}
+.col-md-6{
+  width: 80%;
+  margin: auto;
+  
+  background: #fff;
+  padding: 20px;  
+  box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+
+
+.tab-pane .fade .in .active{
+  display: inline-block;
+}
+.panel-body{
+  width: 70vw;
+}
+
+input[type="file"]{
+  height:60px;
+  font-size: 20px;
+}
+
+.btn-primary{
+  font-size: 30px;
+}
+
+#getData, #getData2, #getData3, #getData4{
+  background:#A52A2A;
+  color: white; 
+  font-size: 16px;
+  padding: 8px 8px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  text-align: center;
+  
+  margin: 4px 2px;
+  border-radius: 10px;
+}
+
+
+input#stu_roll_no, input#f_id,input#f_password input#stu_password {
+  margin: 0px;
+  width: 70px;
+}
+input#stu_class, input#stu_sem, input#stu_section, input#stu_batch {
+  margin: 0px;
+  width: 40px;
+}
+input#stu_fname, input#stu_mname, input#stu_lname,  input#f_fname, input#f_mname, input#f_lname {
+  margin: 0px;
+  width: 80px;
+}
+
+
+#myInput, #myInput2 {
+  background-image: url('../images/searchIcon.png');
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
+/*Profile*/
+
+ul, li {
+  list-style:none;
+  padding:0;
+  margin:0;
+}
+a {text-decoration:none;}
+
+.profile-wrapper {
+  width:200px;
+  position:relative;
+  float: right;
+  height: 80px;
+
+}
+
+
+.profile {
+  padding:10px;
+  
+  background:transparent;
+  height: 80px;
+  width: 150px;
+  float: right;
+}
+
+
+.profile img {
+  width: 60px;
+  height: 60px;
+  display:inline;
+  float:left;
+  box-shadow:0 0 3px rgba(0, 0, 0, 0.5) inset;
+}
+
+/* hide menu */
+.menu {
+  display:none;
+  clear:both;
+  margin:70px 0 0 0;
+  background: black;
+  border:1px solid #000;
+  border-radius:3px;
+  box-shadow:0 1px 0 #555 inset, 0 1px 7px #111;
+  background:-webkit-linear-gradient(#222, #111);
+}
+.menu li {
+  font-size:20px;
+  margin:0;
+  padding: 10px 4px;
+}
+.menu li a {
+  color:white;
+}
+.menu li:hover > a{
+  color:#eee;
+}
+
+.menu li:hover{
+  border-left: 1px solid #111;
+  border-right: 1px solid #222;
+  border-bottom: 1px solid #222;
+  border-top: 1px solid #111;
+  border-radius: 3px;
+}
+
+/* hover profile show menu */
+.profile:hover .menu {
+  display:block;
+}
+
+
+
+.header a{
+  transition: transform .3s;
+}
+
+.header img{
+  width: 60px;
+  height: 60px;
+  margin-left: 25px;
+border-radius: 50%;/*
+  transition: transform .3s;
+  padding-right: 50px;
+  height: 50px;
+  float: right;
+  padding-top: 7px;
+  width: 50px;*/
+}
+.header img:hover{
+  transform: scale(1.1);  
+  }*/
+
+  .header a:hover{
+    transform: scale(1.1);
+  }
+
+  .header{
+    opacity: 0.9;
+    background: transparent;
+
+    
+    height: 70px;
+    position: relative;
+    margin-top:5px;
+    margin-left: 75px;
+    margin-right: 15px;
+
+    
+  }
+  #name{
+    font-weight: bold;
+
+
+    color: white;
+
+    padding-top: 15px;
+    padding-bottom: 3px;
+    float: right;
+    font-size: 30px;
+    
+    text-decoration: none;
+    font-style: italic;
+    font-family: timesnewroman;
+
+  }
+
+  #pic{
+    width: 60px;
+    height: 60px;
+
+    border-radius: 50%;
+    float: right;
+    margin-right: 20px;
+  }
+
+  body{
+    font-size: 18px;
+  }
+  table {
+    border-spacing: 1;
+    border-collapse: collapse;
+    background: #36304a;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    color: black;
+    text-align: center;
+  }
+  table th{
+    background: #800000;
+    color: white;
+    text-align: center;
+  }
+  table * {
+    position: relative;
+  }
+  table td, table th {
+    padding-left: 8px;
+    text-align: center;
+  }
+  table thead tr {
+    height: 60px;
+    background:  #FFF8DC;
+  }
+  table tbody tr {
+    height: 50px;
+    text-align: center;
+  }
+  table tbody tr:last-child {
+    border: 0;
+  }
+  table td, table th {
+    text-align: left;
+  }
+  table td.l, table th.l {
+    text-align: right;
+  }
+  table td.c, table th.c {
+    text-align: center;
+  }
+  table td.r, table th.r {
+    text-align: center;
+  }
+  td{
+    color: black;
+  }
+  th{
+
+    font-size: 18px;
+    color: #fff;
+    line-height: 1.2;
+    font-weight: unset;
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: #f5f5f5;
+  }
+
+  tbody tr {
+
+    font-size: 15px;
+    color: white;
+    line-height: 1.2;
+    font-weight: unset;
+  }
+
+
+  button{
+    background: #A0522D;
+  }
+
+  input[type=checkbox]{
+   background-color: #d9534f;
+   border-color: #d9534f;
+   height: 30px;
+   width: 30px;
+   float: right;
+   margin-right: 35px;
+ }
