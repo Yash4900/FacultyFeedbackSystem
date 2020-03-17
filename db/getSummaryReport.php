@@ -109,7 +109,11 @@ $avg=0;
               $avg_mid=$avg_mid+((int)$optionName[$g]*(int)$options[$g]);
             }
             if($noOfStudents > 0)
+            {
               $avg_mid=$avg_mid/$noOfStudents;
+              $pre = 2;
+              $avg = number_format((float)($avg), $pre,'.','');
+            }
 
 
           }
@@ -136,7 +140,10 @@ $avg=0;
             $avg_end=$avg_end+((int)$optionName[$g]*(int)$options[$g]);
           }
           if($noOfStudents>0)
+          {
             $avg_end=$avg_end/$noOfStudents;
+            $avg = number_format((float)($avg), 2,'.','');
+          }
         }
       
     endwhile;
@@ -151,7 +158,7 @@ $avg=0;
     <td id="cname"><?= $cname ?></td>
     <td id="avgmid"><?php if($avg_mid>0){echo $avg_mid;}else{ echo '-';} ?></td>
     <td id="avgend"><?php if($avg_end>0){echo $avg_end;}else{ echo '-';} ?></td>
-    <td id="avg"><?php if($avg_mid==0){echo $avg_end;}elseif($avg_end==0){echo $avg_mid;}elseif($avg_mid*$avg_end==0){echo "-";}else{echo ($avg_mid+$avg_end)/2;} ?></td>
+    <td id="avg"><?php if($avg_mid==0){echo number_format((float)($avg_end), 2,'.','');}elseif($avg_end==0){echo number_format((float)($avg_mid), 2,'.','');}elseif($avg_mid*$avg_end==0){echo "-";}else{echo number_format((float)(($avg_end+$avg_mid))/2, 2,'.','');} ?></td>
 </tr>
 
 <?php 
