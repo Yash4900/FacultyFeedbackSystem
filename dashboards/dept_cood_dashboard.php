@@ -2109,14 +2109,8 @@ while($r=$res->fetch_assoc()){
 		<label>Sem </label>
 		<select id="sum_sem" class="select_class2">
 			<option value="">Sem</option>
-			<option value="1" <?php if($sem_type=="Even"){ ?> hidden <?php } ?>>1</option>
-			<option value="2" <?php if($sem_type=="Odd"){ ?> hidden <?php } ?>>2</option>
-			<option value="3" <?php if($sem_type=="Even"){ ?> hidden <?php } ?>>3</option>
-			<option value="4" <?php if($sem_type=="Odd"){ ?> hidden <?php } ?>>4</option>
-			<option value="5" <?php if($sem_type=="Even"){ ?> hidden <?php } ?>>5</option>
-			<option value="6" <?php if($sem_type=="Odd"){ ?> hidden <?php } ?>>6</option>
-			<option value="7" <?php if($sem_type=="Even"){ ?> hidden <?php } ?>>7</option>
-			<option value="8" <?php if($sem_type=="Odd"){ ?> hidden <?php } ?>>8</option>
+			<option value="Odd">Odd</option>
+			<option value="Even">Even</option>
 		</select>
 		</b>
 		&nbsp;&nbsp;&nbsp;&nbsp;
