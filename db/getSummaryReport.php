@@ -67,6 +67,7 @@ elseif ($course_code[0]=='T' and $course_code[1]=='H')
 else
     $c='TU';
 
+$pre = 2;
 $avg_mid=0;
 $avg_end=0;
 $avg=0;
@@ -109,13 +110,12 @@ $avg=0;
               $avg_mid=$avg_mid+((int)$optionName[$g]*(int)$options[$g]);
             }
             if($noOfStudents > 0)
+
             {
               $avg_mid=$avg_mid/$noOfStudents;
               $pre = 2;
               $avg = number_format((float)($avg), $pre,'.','');
             }
-
-
           }
         
 
@@ -139,15 +139,17 @@ $avg=0;
 
             $avg_end=$avg_end+((int)$optionName[$g]*(int)$options[$g]);
           }
-          if($noOfStudents>0)
-          {
+        }
+          if($noOfStudents>0){
             $avg_end=$avg_end/$noOfStudents;
-            $avg = number_format((float)($avg), 2,'.','');
-          }
+            $avg_end = number_format((float)($avg_end), $pre,'.','');
         }
       
     endwhile;
-
+    if($noOfStudents>0){
+    $avg=($avg_mid+$avg_end)/2;
+    $avg = number_format((float)($avg), $pre,'.','');
+  }
 ?>
 
 <tr id="hdsj">
