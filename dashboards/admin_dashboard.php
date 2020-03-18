@@ -2248,14 +2248,8 @@ function mail(){
 		<label>Sem </label>
 		<select id="sum_sem" class="select_class2">
 			<option value="">Sem</option>
-			<option value="1">1</option>
-			<option value="2">2</option>
-			<option value="3">3</option>
-			<option value="4">4</option>
-			<option value="5">5</option>
-			<option value="6">6</option>
-			<option value="7">7</option>
-			<option value="8">8</option>
+			<option value="Odd">Odd</option>
+			<option value="Even">Even</option>
 		</select>
 		</b>
 		&nbsp;&nbsp;&nbsp;&nbsp;
