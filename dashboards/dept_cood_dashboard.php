@@ -1392,7 +1392,6 @@ function openLogout(){
 
 		<option data-value="TH">Theory</option>
 		<option data-value="L">Lab</option>
-		
 
 	</datalist>
 
@@ -1615,7 +1614,7 @@ function openSummaryReport(){
 
 
 	if (div.style.display == 'block') {
-		var temp=document.getElementById("5")
+		var temp=document.getElementById("7_")
 		if(temp){
 			temp.style.display="none";
 		}
@@ -1626,7 +1625,34 @@ function openSummaryReport(){
 	else {
 
 		$("#main").children().not(div).css("display","none");
-		var temp=document.getElementById("5")
+		var temp=document.getElementById("7_")
+		if(temp){
+			temp.style.display="none";
+		}
+		// $("#sum_year").val($("#sum_year option:first").val());
+		// $("#sum_sem").val($("#sum_sem option:first").val());
+		div.style.display = 'block';
+	}
+	closeNav();
+}
+
+function openSemCourseReport(){
+	var div = document.getElementById('semwise_course_rep');
+
+
+	if (div.style.display == 'block') {
+		var temp=document.getElementById("6")
+		if(temp){
+			temp.style.display="none";
+		}
+		div.style.display = 'none';
+		// $("#sum_year").val($("#sum_year option:first").val());
+		// $("#sum_sem").val($("#sum_sem option:first").val());
+	}
+	else {
+
+		$("#main").children().not(div).css("display","none");
+		var temp=document.getElementById("6")
 		if(temp){
 			temp.style.display="none";
 		}
@@ -1638,6 +1664,7 @@ function openSummaryReport(){
 }
 
 function openReport(){
+	
 	var div = document.getElementById('content');
 	var btn = document.getElementById('pdf');
 	if (div.style.display == 'block') {
@@ -1681,8 +1708,11 @@ function openReport(){
 $(document).on("click", "#view_summary_report", function(){
 	$("#back_report").css("display","block");
 });
+$(document).on("click", "#view_sem_course_report", function(){
+	$("#back_semwise_report").css("display","block");
+});
 
-
+// view_sem_course_report
 $(document).on("click", "#summary_report", function(){
 
 	$("#table2").empty();
@@ -1709,6 +1739,7 @@ $(document).on("click", "#summary_report", function(){
 $(document).on("click", "#viewReport", function(){
 	var temp = $(this).parents("tr").find('#f_id').text(); 
 	$("#view_summary_report").css("display","none");
+	$("#view_sem_course_report").css("display","none");
 	$("#back").css("display","block");
 
 	$("#table2").empty();
@@ -1737,8 +1768,9 @@ $(document).on("click", "#back", function(){
 
 	$("#table2").empty();
 	$("#back").css("display","none");
-	$("#view_summary_report").css("display","block");
-
+	$("#view_summary_report").css("display","inline");
+	$("#view_sem_course_report").css("display","inline");
+	
 
 	$.post(
 		'../db/calculateScore.php',
@@ -2054,7 +2086,9 @@ function mail(){
 			<br>
 			<button  id="back" style="display: none;" class="btn btn-success">Back</button>
 
-			<button id="view_summary_report" class="btn btn-success" onclick="openSummaryReport()">View Summary Report</button><br><br>
+			<button id="view_summary_report" class="btn btn-success" onclick="openSummaryReport()">View Summary Report</button>
+			<button id="view_sem_course_report" class="btn btn-success" onclick="openSemCourseReport()">View Sem-Wise All Courses Feedback</button>
+			<br><br>
 			<br>
 			<br>
 			<div  id="table2">
@@ -2079,6 +2113,8 @@ while($r=$res->fetch_assoc()){
 }
  ?>
 
+
+<!-- summary report -->
 <div id="summary_rep" style="display: none;">
 	<div class="table-wrapper" id="table_summary">
 		<div class="table-title">
@@ -2106,12 +2142,15 @@ while($r=$res->fetch_assoc()){
 			<option value="2026-2027">2026-2027</option>
 		</select>
 		&nbsp;&nbsp;&nbsp;&nbsp; 
-		<label>Sem </label>
-		<select id="sum_sem" class="select_class2">
+		<label>Sem:&nbsp;&nbsp;Odd</label>
+		<input type="radio" name="chooseSem" value="Odd" id="semOdd">&nbsp;&nbsp;<label>Even</label>
+		<input type="radio" name="chooseSem" value="Even" id="semEven">&nbsp;&nbsp;<label>Both</label>
+		<input type="radio" name="chooseSem" value="Both" id="semBoth">
+		<!-- <select id="sum_sem" class="select_class2">
 			<option value="">Sem</option>
 			<option value="Odd">Odd</option>
 			<option value="Even">Even</option>
-		</select>
+		</select> -->
 		</b>
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		<button id="getSummaryReport">Get Data</button>
@@ -2120,20 +2159,24 @@ while($r=$res->fetch_assoc()){
 </div> 
 <script type="text/javascript">
 		$('#getSummaryReport').click(function(){
-
+			var notSel;
 			var s_y = document.getElementById("sum_year");
 			var s=s_y.options[s_y.selectedIndex].value;
-			var s_s = document.getElementById("sum_sem");
-			var a=s_s.options[s_s.selectedIndex].value;
+			if(document.getElementById("semOdd").checked){
+				var a = "Odd";notSel = false;}else if(document.getElementById("semEven").checked){var a = "Even";notSel = false;}else if(document.getElementById("semBoth").checked){var a = "Both";notSel = false;}else{
+				notSel = true;
+			}
+			// var s_s = document.getElementById("sum_sem");
+			// var a=s_s.options[s_s.selectedIndex].value;
 
-			if(s_y.selectedIndex<0 || s_s.selectedIndex<0){
+			if(s_y.selectedIndex<1 || notSel==true){
 				alert("Select Year and Semester!");
 			}
 			else{
 				$("#sum_table").empty();
 
 				$.post(
-					'../db/getSummaryReport.php',
+					'../db/getSummaryReport2.php',
 					{
 						year:s,
 						sem:a
@@ -2149,8 +2192,129 @@ while($r=$res->fetch_assoc()){
 				
 			}
 		});
+</script>
 
-	</script>
+<!-- semester wise all courses report -->
+<div id="semwise_course_rep" style="display: none;">
+	<div class="table-wrapper" id="table_summary">
+		<div class="table-title">
+			<div class="row">
+				<button  id="back_semwise_report" style="display: none;" class="btn btn-success" onclick="openReport()">Back</button>
+
+				<div class="col-sm-8"><h2><b>Select year and semester</b></h2></div>
+				<div class="col-sm-4">
+					<!-- <button id="addnew2"type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button> -->
+				</div>
+			</div>
+			
+		</div>
+		<br>
+		<b><label>Year </label>
+		<select id = "swac_year" class="select_class2">
+			<option value="">Year</option>
+			<option value="2019-2020">2019-2020</option>
+			<option value="2020-2021">2020-2021</option>
+			<option value="2021-2022">2021-2022</option>
+			<option value="2022-2023">2022-2023</option>
+			<option value="2023-2024">2023-2024</option>
+			<option value="2024-2025">2024-2025</option>
+			<option value="2025-2026">2025-2026</option>
+			<option value="2026-2027">2026-2027</option>
+		</select>
+		&nbsp;&nbsp;&nbsp;&nbsp; 
+		<label>Class </label>
+		<select id = "swac_class" class="select_class2">
+			<option value="">Year</option>
+			<option value="FY">FY</option>
+			<option value="SY">SY</option>
+			<option value="TY">TY</option>
+			<option value="LY">LY</option>
+			<option value="MTech">MTech</option>
+		</select>
+		&nbsp;&nbsp;&nbsp;&nbsp; 
+		<label>Sem </label>
+		<select id="swac_sem" class="select_class2">
+			<option value="">Sem</option>
+			<option value="1" style="display:none;" id="1">1</option>
+			<option value="2" style="display:none;" id="2">2</option>
+			<option value="3" style="display:none;" id="3">3</option>
+			<option value="4" style="display:none;" id="4">4</option>
+			<option value="5" style="display:none;" id="5">5</option>
+			<option value="6" style="display:none;" id="6">6</option>
+			<option value="7" style="display:none;" id="7">7</option>
+			<option value="8" style="display:none;" id="8">8</option>
+		</select>
+		</b>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<script type="text/javascript">
+			$('#swac_class').change(function(){
+				document.getElementById('1').style.display = 'none';
+				document.getElementById('2').style.display = 'none';
+				document.getElementById('3').style.display = 'none';
+				document.getElementById('4').style.display = 'none';
+				document.getElementById('5').style.display = 'none';
+				document.getElementById('6').style.display = 'none';
+				document.getElementById('7').style.display = 'none';
+				document.getElementById('8').style.display = 'none';
+				var swac_c = document.getElementById("swac_class");
+				var c=swac_c.options[swac_c.selectedIndex].value;
+				if(c=='FY'){
+					document.getElementById('1').style.display = 'block';
+					document.getElementById('2').style.display = 'block';
+				}else if(c=='SY'){
+					document.getElementById('3').style.display = 'block';
+					document.getElementById('4').style.display = 'block';
+				}else if(c=='TY'){
+					document.getElementById('5').style.display = 'block';
+					document.getElementById('6').style.display = 'block';
+				}else if(c=='LY'){
+					document.getElementById('7').style.display = 'block';
+					document.getElementById('8').style.display = 'block';
+				}else{
+					document.getElementById('1').style.display = 'block';
+					document.getElementById('2').style.display = 'block';
+					document.getElementById('3').style.display = 'block';
+					document.getElementById('4').style.display = 'block';
+				}
+			});
+		</script>
+		<button id="getSemwiseCourseReport" style="background:#A52A2A;color: white; font-size: 16px;padding: 8px 8px;padding-top: 4px;padding-bottom: 4px;text-align: center;margin: 4px 2px;border-radius: 10px;">Get Data</button>
+		<div id="swac_table"></div>
+	</div>
+</div> 
+<script type="text/javascript">
+		$('#getSemwiseCourseReport').click(function(){
+
+			var swac_y = document.getElementById("swac_year");
+			var s=swac_y.options[swac_y.selectedIndex].value;
+			var swac_s = document.getElementById("swac_sem");
+			var a=swac_s.options[swac_s.selectedIndex].value;
+
+			if(swac_y.selectedIndex<0 || swac_s.selectedIndex<0){
+				alert("Select Year and Semester!");
+			}
+			else{
+				$("#swac_table").empty();
+
+				$.post(
+					'../db/getSemwiseAllCoursesReport.php',
+					{
+						year:s,
+						sem:a
+					},
+
+					function(result){
+
+						$('#swac_table').append(result);
+
+					}
+
+					);
+				
+			}
+		});
+</script>
+
 
 <!--content1 div starts-->
 

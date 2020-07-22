@@ -653,7 +653,7 @@ display: inline-block;
     font-size: 30px;
   }
 
-  #getSummaryReport, #getData, #getData2, #getData3, #getData4,#addnew31,#addnew3, #getDataOfReminderStudent, #getDataOfStudent{
+#getSummaryReport, #getData, #getData2, #getData3, #getData4,#addnew31,#addnew3, #getDataOfReminderStudent, #getDataOfStudent{
     background:#A52A2A;
     color: white; 
     font-size: 16px;

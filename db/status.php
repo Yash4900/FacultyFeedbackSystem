@@ -179,7 +179,7 @@ $sy=substr($start_time,0,4);
 	<h2>System Status</h2><br>
 	<table id="info_table">
 		<tr>
-			<td class="norm">Academic Year</td>
+			<td class="norm" style="color:black;">Academic Year</td>
 			<td class="data">
 				<select id="acad_year">
 					<option value="2019-2020" <?php if($acad_year=="2019-2020"){ echo "selected";}?>>2019-2020</option>
@@ -194,7 +194,7 @@ $sy=substr($start_time,0,4);
 		</tr>
 		
 		<tr>
-			<td class="norm">Semester Type</td>
+			<td class="norm" style="color:black;">Semester Type</td>
 			<td class="data">
 				Odd
 				<input type="radio" name="sem_type" id="odd" value="Odd" <?php if($sem_type=="Odd"){ echo "checked";}?>/>
@@ -205,7 +205,7 @@ $sy=substr($start_time,0,4);
 		</tr>
 
 		<tr>
-			<td class="norm">Current Status</td>
+			<td class="norm" style="color:black;">Current Status</td>
 			<td class="data" id="current_status">
 				Mid Sem Feedback Activated
 				<input type="radio" name="current_status" id="mid" value="mid_sem_feedback" <?php if($status=="Mid Sem Feedback Activated"){ echo "checked";}?>/><br>
@@ -216,7 +216,7 @@ $sy=substr($start_time,0,4);
 		</tr>
 
 		<tr>
-			<td class="norm">Start Time of the Form</td>
+			<td class="norm" style="color:black;">Start Time of the Form</td>
 			<td class="data">
 				<!-- <i>Current value: <?php echo $start_time; ?></i> -->
 				<!-- <br><br> -->
@@ -444,7 +444,7 @@ $sy=substr($start_time,0,4);
 		</tr>
 
 		<tr>
-			<td class="norm">End Time of the Form</td>
+			<td class="norm" style="color:black;">End Time of the Form</td>
 			<td class="data" >
 				<!-- <i>Current value: <?php echo $end_time; ?></i> -->
 				<!-- <br><br> -->

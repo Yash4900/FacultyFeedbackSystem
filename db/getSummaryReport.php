@@ -173,7 +173,9 @@ $avg=0;
 
     </tbody>
   </table>
-  <button id="button_print"  class="btn btn-success" onclick="printDataSummary()">Print</button>
+
+  <!-- Print Table -->
+  <!-- <button id="button_print"  class="btn btn-success" onclick="printDataSummary()">Print</button>
 <script>
   function printDataSummary()
   {
@@ -188,6 +190,16 @@ $avg=0;
  $('#button_print').on('click',function(){
   printDataSummary();
 });
-
-
 </script>
+ -->
+<!-- Download as Exccel -->
+<!-- <button id="sumrep_export_excel"  class="btn btn-success" onclick="SummaryRepExport()">Download as excel file</button>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="https://cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
+    <script type="text/javascript">
+        function SummaryRepExport() {
+            $("#5").table2excel({
+                filename: "Faculty_Summary_Report.xls"
+            });
+        }
+    </script> -->
