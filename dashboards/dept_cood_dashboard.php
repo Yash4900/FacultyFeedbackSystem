@@ -1611,8 +1611,6 @@ function openHome(){
 
 function openSummaryReport(){
 	var div = document.getElementById('summary_rep');
-
-
 	if (div.style.display == 'block') {
 		var temp=document.getElementById("7_")
 		if(temp){

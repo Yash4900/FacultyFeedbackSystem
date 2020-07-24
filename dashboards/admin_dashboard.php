@@ -1636,10 +1636,8 @@ function openHome(){
 
 function openSummaryReport(){
 	var div = document.getElementById('summary_rep');
-
-
 	if (div.style.display == 'block') {
-		var temp=document.getElementById("5")
+		var temp=document.getElementById("7_")
 		if(temp){
 			temp.style.display="none";
 		}
@@ -1650,7 +1648,7 @@ function openSummaryReport(){
 	else {
 
 		$("#main").children().not(div).css("display","none");
-		var temp=document.getElementById("5")
+		var temp=document.getElementById("7_")
 		if(temp){
 			temp.style.display="none";
 		}
@@ -2245,12 +2243,15 @@ function mail(){
 			<option value="2026-2027">2026-2027</option>
 		</select>
 		&nbsp;&nbsp;&nbsp;&nbsp; 
-		<label>Sem </label>
-		<select id="sum_sem" class="select_class2">
+		<label>Sem:&nbsp;&nbsp;Odd</label>
+		<input type="radio" name="chooseSem" value="Odd" id="semOdd">&nbsp;&nbsp;<label>Even</label>
+		<input type="radio" name="chooseSem" value="Even" id="semEven">&nbsp;&nbsp;<label>Both</label>
+		<input type="radio" name="chooseSem" value="Both" id="semBoth">
+		<!-- <select id="sum_sem" class="select_class2">
 			<option value="">Sem</option>
 			<option value="Odd">Odd</option>
 			<option value="Even">Even</option>
-		</select>
+		</select> -->
 		</b>
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		<button id="getSummaryReport">Get Data</button>
@@ -2259,26 +2260,29 @@ function mail(){
 </div> 
 <script type="text/javascript">
 		$('#getSummaryReport').click(function(){
-
+			var d = document.getElementById("deptOfReport").value;
+			var notSel;
 			var s_y = document.getElementById("sum_year");
 			var s=s_y.options[s_y.selectedIndex].value;
-			var s_s = document.getElementById("sum_sem");
-			var a=s_s.options[s_s.selectedIndex].value;
-			var dep_report = document.getElementById("deptOfReport");
-			var d=dep_report.options[dep_report.selectedIndex].value;
+			if(document.getElementById("semOdd").checked){
+				var a = "Odd";notSel = false;}else if(document.getElementById("semEven").checked){var a = "Even";notSel = false;}else if(document.getElementById("semBoth").checked){var a = "Both";notSel = false;}else{
+				notSel = true;
+			}
+			// var s_s = document.getElementById("sum_sem");
+			// var a=s_s.options[s_s.selectedIndex].value;
 
-			if(s_y.selectedIndex<0 || s_s.selectedIndex<0){
+			if(s_y.selectedIndex<1 || notSel==true){
 				alert("Select Year and Semester!");
 			}
 			else{
 				$("#sum_table").empty();
 
 				$.post(
-					'../db/getSummaryReport.php',
+					'../db/getSummaryReport2.php',
 					{
+						dept_id:d,
 						year:s,
-						sem:a,
-						dept_id:d
+						sem:a
 					},
 
 					function(result){

@@ -47,25 +47,28 @@ $cs;$el;$tot;
 </script>
 
 <!-- Download as Exccel -->
-<button id="sumrep_export_excel"  class="btn btn-success" onclick="SummaryRepExport()" align="center">Download as excel file</button>
+<button id="sumrep_export_excel"  class="btn btn-success" align="center">Download as excel file</button>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<!-- <script src="https://cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script> -->
-    <script type="text/javascript">
-      //   function SummaryRepExport() {
-      //   	var divToPrint=document.getElementById("7");
-   			// if(divToPrint.style.display!="none"){
-      //       $("#7").table2excel({
-      //           filename: "<?php echo $year."_".$sem."_Sem_SummaryReport"; ?>.xlsx"
-      //       });
-      //   }else{
-      //   	alert("Table is empty!");	
-      //   }
-      //   }
-      $( "[id$=sumrep_export_excel]" ).click(function(e) {   
-  window.open('data:application/vnd.ms-excel,' + $('div[id$=summary_report_table]').html());
-  e.preventDefault();
-});
-    </script>
+<script src="../scripts/xlsx.full.min.js"></script>
+<script src="../scripts/FileSaver.min.js"></script>
+<script type="text/javascript">
+
+var wb = XLSX.utils.table_to_book(document.getElementById("7"),{sheet:"Summary Report"});
+var wbout = XLSX.write(wb, {bookType:'xlsx',  type: 'binary'});
+function s2ab(s) { 
+                var buf = new ArrayBuffer(s.length); //convert s to arrayBuffer
+                var view = new Uint8Array(buf);  //create uint8array as viewer
+                for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF; //convert to octet
+                return buf;    
+}
+$("#sumrep_export_excel").click(function(){
+       saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), '<?php echo $year."_"."$sem"."_Sem_SummaryReport"; ?>.xlsx');
+});      
+//       $( "[id$=sumrep_export_excel]" ).click(function(e) {   
+//   window.open('data:application/vnd.ms-excel,' + $('div[id$=summary_report_table]').html());
+//   e.preventDefault();
+// });
+</script>
 </div>
 <div id="summary_report_table">
 <table id="7" class="table table-bordered">
@@ -78,6 +81,9 @@ $cs;$el;$tot;
       <th style="text-align: center;">Course Type</th>
       <th style="text-align: center;">Course Name</th>
       <th style="text-align: center;">Class</th>
+      <?php if($sem=="Both"){ ?>
+      <th style="text-align: center;">Sem</th>  
+      <?php } ?>
       <th style="text-align: center;">Div/Batch</th>
       <th style="text-align: center;">Mid Sem</th>
       <th style="text-align: center;">End Sem</th>
@@ -99,11 +105,11 @@ while($row1=$res1->fetch_assoc()){
 
 // fetching course details that faculty teaches
 	if($sem=="Odd"){
-   $sql2 = "SELECT course_code, class, section_or_batch FROM courses_faculty WHERE f_id='$f_id' and sem%2='1' and acad_year='$year' AND dept_id='$dept_id'";
+   $sql2 = "SELECT course_code, class, section_or_batch, sem FROM courses_faculty WHERE f_id='$f_id' and sem%2='1' and acad_year='$year' AND dept_id='$dept_id'";
 }elseif($sem=="Even"){
-   $sql2 = "SELECT course_code, class, section_or_batch FROM courses_faculty WHERE f_id='$f_id' and sem%2='0' and acad_year='$year' AND dept_id='$dept_id'";
+   $sql2 = "SELECT course_code, class, section_or_batch, sem FROM courses_faculty WHERE f_id='$f_id' and sem%2='0' and acad_year='$year' AND dept_id='$dept_id'";
 }elseif($sem=="Both"){
-	$sql2 = "SELECT course_code, class, section_or_batch FROM courses_faculty WHERE f_id='$f_id' and acad_year='$year' AND dept_id='$dept_id' and (sem%2='0' OR sem%2='1')";
+	$sql2 = "SELECT course_code, class, section_or_batch, sem FROM courses_faculty WHERE f_id='$f_id' and acad_year='$year' AND dept_id='$dept_id' and (sem%2='0' OR sem%2='1')";
 }
 	
 	$res2= $conn->query($sql2);
@@ -138,6 +144,7 @@ $res6= $conn->query($sql6);
 		$course_code = $row2['course_code'];
 		$class = $row2['class'];
 		$section_or_batch = $row2['section_or_batch'];
+    $s = $row2['sem'];
 
 		$s3 = "SELECT c_name from subject where course_code='$course_code'";
 		$r3= $conn->query($s3);
@@ -164,7 +171,7 @@ $res6= $conn->query($sql6);
 	$avg_end=0;
 	$avg=0;
 
-    $sql = "SELECT q_id,question FROM question where course_type='$c' and acad_year='$year'";
+    $sql = "SELECT q_id, question FROM question where course_type='$c' and acad_year='$year'";
     $result = $conn->query($sql);   
     $noOfQues=$result->num_rows;
     while($row=$result->fetch_assoc()):
@@ -259,6 +266,9 @@ $res6= $conn->query($sql6);
     <td class="la" id="ctype"><?php echo $ct; ?></td>
     <td class="la" id="cname"><?= $cname ?></td>
     <td class="la" id="class"><?= $class ?></td>
+    <?php if($sem=="Both"){ ?>
+    <td class="la" id="semType"><?php if($s%2==1){echo "Odd";}else{echo "Even";} ?></td> 
+    <?php } ?>
     <td class="la" id="div_batch"><?= $section_or_batch ?></td>
     <td class="ca" id="avgmid"><?php if($avg_mid>0){echo number_format((float)($avg_mid), 2,'.','');}else{ echo '-';} ?></td>
     <td class="ca" id="avgend"><?php if($avg_end>0){echo number_format((float)($avg_end), 2,'.','');}else{ echo '-';} ?></td>
@@ -406,6 +416,9 @@ while($row6=$res6->fetch_assoc()){
     <td class="la" id="ctype"><?php echo $ct; ?></td>
     <td class="la" id="cname"><?= $cname." "."(Ele/IDC/Au)" ?></td>
     <td class="la" id="class"><?= $class ?></td>
+    <?php if($sem=="Both"){ ?>
+    <td class="la" id="semType"><?php if($s%2==1){echo "Odd";}else{echo "Even";} ?></td> 
+    <?php } ?>
     <td class="la" id="div_batch"><?= $section_or_batch ?></td>
     <td class="ca" id="avgmid"><?php if($avg_mid>0){echo number_format((float)($avg_mid), 2,'.','');}else{ echo '-';} ?></td>
     <td class="ca" id="avgend"><?php if($avg_end>0){echo number_format((float)($avg_end), 2,'.','');}else{ echo '-';} ?></td>
