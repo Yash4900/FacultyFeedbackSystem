@@ -2,6 +2,8 @@
 include ('config/db_config.php');
 session_start();
 if(isset($_SESSION['role'])){
+	if($_SESSION['role']=='dept_hod')
+		header("Location: dashboards/dept_hod_dashboard.php");
 	if($_SESSION['role']=='dept_cood')
 		header("Location: dashboards/dept_cood_dashboard.php");
 	if($_SESSION['role']=='student')
@@ -49,9 +51,6 @@ if(isset($_SESSION['role'])){
 			document.getElementById("wrapper").style.display = "block";
 		} 
 		function closeForm() {
-			
-
-			
 			document.getElementById("wrapper").style.display = "none";
 		} 
 		function onSignIn(googleUser) {			

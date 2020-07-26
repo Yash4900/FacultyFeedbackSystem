@@ -1,7 +1,12 @@
 <?php
 session_start();
-if($_SESSION["role"]!="admin"){
+if($_SESSION["role"]!="dept_hod"){
 	header("Location: ../index.php");
+}
+if(isset($_SESSION['dept_id'])){
+	$dept_id=$_SESSION['dept_id'];
+}else{
+	$dept_id=$_POST['dept_id'];
 }
 
 include ('../config/db_config.php');
@@ -12,7 +17,7 @@ include ('../config/db_config.php');
 <head>
 
 
-	<title>Admin</title>
+	<title>Head Of Department</title>
 
 	<style type="text/css">
 		
@@ -44,14 +49,10 @@ include ('../config/db_config.php');
 
 	<script type="text/javascript">
 		$(document).ready( function() {
-			var e = document.getElementById("deptOfState");
-			var d=e.options[e.selectedIndex].value;
-
 			$.post(
 				'../db/status.php',
 				{
-					showstatus:1,
-					dept_id:d
+					showstatus:1
 				},
 
 				function(result){
@@ -247,7 +248,7 @@ include ('../config/db_config.php');
 			var actions5 = '          <a id="add5" class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>\
 			<a id="edit5" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>\
 			<a id="delete5" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>'
-			var actions5 = '          <a id="addElective" class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>\
+			var actions6 = '          <a id="addElective" class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>\
 			<a id="editElective" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>\
 			<a id="deleteElective" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>'
 
@@ -279,7 +280,7 @@ include ('../config/db_config.php');
     '<td id="electiveName"><input type="text" class="form-control" name="electiveName" id="electiveName"></td>' +
     '<td id="sem"><input type="text" class="form-control" name="sem" id="sem"></td>' +
     '<td id="f_id"><input type="text" list="suggestions" style="width:200px;"  class="form-control" name="f_id" id="f_id"></td>'+
-    '<td>' + actions5 + '</td>' +
+    '<td>' + actions6 + '</td>' +
     '</tr>';
     $("#electiveTable").append(row);   
     $("#electiveTable tbody tr").eq(index + 1).find("#addElective, #editElective").toggle();
@@ -393,7 +394,6 @@ include ('../config/db_config.php');
   	var s=e.options[e.selectedIndex].value;
   	var f = document.getElementById("class");
   	var a=f.options[f.selectedIndex].value;
-  	var z = document.getElementById("deptOfCourses").value;
   	//alert(c_namev+" "+c_idv+" "+a+" "+s);
   	if(e.selectedIndex<=0 || f.selectedIndex<=0 ){
   		alert("Select Semester and Class!");
@@ -408,8 +408,7 @@ include ('../config/db_config.php');
   				c_name: c_namev,
   				c_id:c_idv,          
   				class:a,
-  				sem:s,
-  				dept_id:z
+  				sem:s
   			},
 
   			function(result){
@@ -453,7 +452,6 @@ include ('../config/db_config.php');
   	var electiveName=$(this).parents("tr").find('#electiveName').val();
   	var f_id=$(this).parents("tr").find('#f_id').val();
   	var sem=$(this).parents("tr").find('#sem').val();
-  	var z = document.getElementById("deptOfElectives").value;
   	if(electiveID=="" || electiveName=="")
   	{
   		var temp=["demo"]; var i=1;
@@ -484,8 +482,7 @@ include ('../config/db_config.php');
   			electiveID: electiveIDv,
   			electiveName :electiveNamev,
   			f_id:value2send,
-  			sem:sem,
-  			dept_id:z        
+  			sem:sem          
 
   		},
 
@@ -531,7 +528,7 @@ include ('../config/db_config.php');
   	var a=f.options[f.selectedIndex].value;
   	var t = document.getElementById("sem2");
   	var r=t.options[t.selectedIndex].value;
-  	var z = document.getElementById("deptOfAllocateFaculty").value;
+
 
   	if(c_idv=="" || f_idv=="")
   	{
@@ -570,8 +567,7 @@ include ('../config/db_config.php');
   			f_id:value2send,          
   			class:s,
   			section:a,
-  			sem:r,
-  			dept_id:z
+  			sem:r
   		},
 
   		function(result){
@@ -636,7 +632,6 @@ include ('../config/db_config.php');
   	}
 
   	//alert(ques+" "+q_idv+" "+e);
-  	var z = document.getElementById("deptOfQuestions").value;
   	$.post(
 
   		'../db/questions.php',
@@ -644,8 +639,7 @@ include ('../config/db_config.php');
   			insert:1,
   			question:ques,
   			q_id:q_idv, 
-  			courseCode:e ,
-  			dept_id:z        
+  			courseCode:e         
 
   		},
 
@@ -713,7 +707,7 @@ include ('../config/db_config.php');
   			break;
   		}
   	}
-  	var z = document.getElementById("deptOfQuestions").value;
+
   	//alert(opt+" "+option_num+" "+e+" "+q_id);
   	$.post(
 
@@ -723,8 +717,7 @@ include ('../config/db_config.php');
   			option:opt,
   			option_no:option_num, 
   			course_type:e ,
-  			q_id:q_id ,
-  			dept_id:z      
+  			q_id:q_id       
 
   		},
 
@@ -805,7 +798,7 @@ include ('../config/db_config.php');
   	var stu_electiveID=temp[11];
   	var stu_electiveBatchID=temp[12];
 
-  	var z = document.getElementById("deptOfStudent").value;
+
 
   	$.post(
 
@@ -823,8 +816,7 @@ include ('../config/db_config.php');
   			section:stu_section,
   			batch:stu_batch,
   			electiveID:stu_electiveID,
-  			electiveBatchID:stu_electiveBatchID,
-  			dept_id:z
+  			electiveBatchID:stu_electiveBatchID
   		},
 
   		function(result){
@@ -868,7 +860,7 @@ include ('../config/db_config.php');
   	var f_email=temp[5];
   	var f_password=temp[6];
 
-  	var z = document.getElementById("deptOfFaculty").value;
+
 
   	$.post(
 
@@ -880,8 +872,7 @@ include ('../config/db_config.php');
   			mname:f_mname,
   			lname:f_lname,
   			email:f_email,
-  			password:f_password,
-  			dept_id:z
+  			password:f_password
   		},
 
   		function(result){
@@ -1087,8 +1078,7 @@ include ('../config/db_config.php');
   $(document).on("click", "#delete1", function(){
        //var parent = $(this).parent('tr'); 
                // var c = parent.children('td')[0].innerHTML;
-               var c = $(this).parents("tr").find("#c_id").html();  
-               var z = document.getElementById("deptOfCourses").value;  
+               var c = $(this).parents("tr").find("#c_id").html();    
 
 
                $.post(
@@ -1096,8 +1086,7 @@ include ('../config/db_config.php');
                	'../db/courses.php',
                	{
                		delete:1,
-               		c_id:c,
-               		dept_id:z
+               		c_id:c
                	},
 
                	function(result){
@@ -1113,8 +1102,7 @@ include ('../config/db_config.php');
 
   $(document).on("click", "#deleteElective", function(){
 
-  	var c = $(this).parents("tr").find("#electiveID").html();  
-  	var z = document.getElementById("deptOfElectives").value;  
+  	var c = $(this).parents("tr").find("#electiveID").html();    
 
 
   	$.post(
@@ -1122,8 +1110,7 @@ include ('../config/db_config.php');
   		'../db/electives.php',
   		{
   			delete:1,
-  			electiveID:c,
-  			dept_id:z
+  			electiveID:c
   		},
 
   		function(result){
@@ -1156,7 +1143,7 @@ include ('../config/db_config.php');
   			break;
   		}
   	}  
-  	var z = document.getElementById("deptOfAllocateFaculty").value;
+
 
   	$.post(
 
@@ -1167,8 +1154,7 @@ include ('../config/db_config.php');
   			f_id:value2send,
   			class:s,
   			section:a,
-  			sem:r,
-  			dept_id:z
+  			sem:r
   		},
 
   		function(result){
@@ -1183,39 +1169,38 @@ include ('../config/db_config.php');
   	//alert($(spannedTD).attr("rowSpan"));
   	//alert(lala);
   	$(this).parents("tr").remove();
- var temp=document.getElementById("2")
-              if(temp){
-              	temp.parentNode.removeChild(temp);
-              }
-              var e = document.getElementById("class2");
-              var s=e.options[e.selectedIndex].value;
-              var f = document.getElementById("section");
-              var a=f.options[f.selectedIndex].value;
-              var t = document.getElementById("sem2");
-              var r=t.options[t.selectedIndex].value;
-              var z = document.getElementById("deptOfAllocateFaculty").value;
-              if(e.selectedIndex<=0 || f.selectedIndex<=0){
-              	alert("Select section and class!");
-              }
-              else{
-              	$.post(
-              		'../db/fillAllocateFacultyTable.php',
-              		{
-              			table2:1,
-              			section:a,
-              			class:s,
-              			sem:r,
-              			dept_id:z
-              		},
+  	var temp=document.getElementById("2")
+  	if(temp){
+  		temp.parentNode.removeChild(temp);
+  	}
+  	var e = document.getElementById("class2");
+  	var s=e.options[e.selectedIndex].value;
+  	var f = document.getElementById("section");
+  	var a=f.options[f.selectedIndex].value;
+  	var t = document.getElementById("sem2");
+  	var r=t.options[t.selectedIndex].value;
 
-              		function(result){
-              			$('#table123').append(result);
-              			//alert("Posted");
-              		}
+  	if(e.selectedIndex<=0 || f.selectedIndex<=0){
+  		alert("Select section and class!");
+  	}
+  	else{
+  		$.post(
+  			'../db/fillAllocateFacultyTable.php',
+  			{
+  				table2:1,
+  				section:a,
+  				class:s,
+  				sem:r
+  			},
 
-              		);
+  			function(result){
+  				$('#table123').append(result);
+  				//alert("Posted");
+  			}
 
-              }
+  			);
+
+  	}
 
     //$("#addnew2").removeAttr("disabled");
 });
@@ -1235,15 +1220,13 @@ include ('../config/db_config.php');
                		break;
                	}
                }
-               var z = document.getElementById("deptOfQuestions").value;
                $.post(
 
                	'../db/questions.php',
                	{
                		delete:1,
                		q_id:q,
-               		course_type:e,
-               		dept_id:z
+               		course_type:e
                	},
 
                	function(result){
@@ -1259,7 +1242,6 @@ include ('../config/db_config.php');
                		return;
                	var d=$(this).find("#option_no").html();
                	//alert(q+" "+d+" "+e);
-               	var z = document.getElementById("deptOfQuestions").value;
                	$.post(
 
                		'../db/options.php',
@@ -1267,8 +1249,7 @@ include ('../config/db_config.php');
                			delete:1,
                			q_id:q,
                			option_no:d,
-               			course_type:e,
-               			dept_id:z
+               			course_type:e
                		},
 
                		function(result){
@@ -1306,7 +1287,6 @@ include ('../config/db_config.php');
   		}
   	}
   	//alert(q+" "+d+" "+e);
-  	var z = document.getElementById("deptOfQuestions").value;
   	$.post(
 
   		'../db/options.php',
@@ -1314,8 +1294,7 @@ include ('../config/db_config.php');
   			delete:1,
   			q_id:q,
   			option_no:d,
-  			course_type:e,
-  			dept_id:z
+  			course_type:e
   		},
 
   		function(result){
@@ -1333,8 +1312,7 @@ include ('../config/db_config.php');
   $(document).on("click", "#delete4", function(){
        //var parent = $(this).parent('tr'); 
                // var c = parent.children('td')[0].innerHTML;
-               var c = $(this).parents("tr").find("#stu_roll_no").html();  
-               var z = document.getElementById("deptOfStudent").value;  
+               var c = $(this).parents("tr").find("#stu_roll_no").html();    
 
 
                $.post(
@@ -1342,8 +1320,7 @@ include ('../config/db_config.php');
                	'../db/deleteStudent.php',
                	{
                		delete:1,
-               		roll_no:c,
-               		dept_id:z
+               		roll_no:c
                	},
 
                	function(result){
@@ -1361,15 +1338,14 @@ include ('../config/db_config.php');
        //var parent = $(this).parent('tr'); 
                // var c = parent.children('td')[0].innerHTML;
                var c = $(this).parents("tr").find("#f_id").html();    
-               var z = document.getElementById("deptOfFaculty").value;
+
 
                $.post(
 
                	'../db/deleteFaculty.php',
                	{
                		delete:1,
-               		f_id:c,
-               		dept_id:z
+               		f_id:c
                	},
 
                	function(result){
@@ -1416,7 +1392,6 @@ function openLogout(){
 
 		<option data-value="TH">Theory</option>
 		<option data-value="L">Lab</option>
-		
 
 	</datalist>
 
@@ -1494,7 +1469,7 @@ function openLogout(){
   		<a title="Feedback State"href="#" onclick="openState()"><i class="fa fa-caret-square-o-right" aria-hidden="true"></i></a>
   		<a title="Edit Courses"href="#" onclick="openEditCourses()"><i class="fa fa-book" aria-hidden="true"></i></a>
   		<a title="Edit Electives/ IDC"href="#" onclick="openElectives()"><i class="fa fa-file-text-o" aria-hidden="true"></i></a>
-  		<a title="Assign IDC to Students"href="#" onclick="openIDCToStudents()"><i class="fa fa-plus" aria-hidden="true"></i></a>
+		<a title="Assign IDC to Students"href="#" onclick="openIDCToStudents()"><i class="fa fa-plus" aria-hidden="true"></i></a>
   		<a title="Allocate Faculty"href="#" onclick="openAllocateFaculty()"><i class="fa fa-users"></i></a> 
   		<a title="Report"href="#" onclick="openReport()"><i class="fa fa-download" aria-hidden="true"></i></i></a>
   		<a title="Student Status"href="#" onclick="openStudentStatus()"><i class="fa fa-envelope-o" aria-hidden="true"></i></i></a>
@@ -1512,8 +1487,8 @@ function openLogout(){
   		<a  class="a" onclick="openHome()" href="#"><span class="fa fa-home" style="margin-right: 10px"></span><span style="font-size: 20px;">Home</span></a>
   		<a  class="a" onclick="openState()" href="#"><span class="fa fa-caret-square-o-right" style="margin-right: 10px"></span><span style="font-size: 20px;">Status</span></a> 
   		<a  class="a" onclick="openEditCourses()" href="#"><span class="fa fa-book" aria-hidden="true" style="margin-right: 10px"></span><span style="font-size: 20px;">Edit Courses</span></a>
-  		<a  class="a" onclick="openElectives()" href="#"><span class="fa fa-file-text-o" aria-hidden="true" style="margin-right: 10px"></span><span style="font-size: 20px;">Edit Electives/ IDC</span></a>		
-  		<a  class="a" onclick="openIDCToStudents()" href="#"><span class="fa fa-plus" aria-hidden="true" style="margin-right: 10px"></span><span style="font-size: 20px;">IDC->Student</span></a>
+  		<a  class="a" onclick="openElectives()" href="#"><span class="fa fa-file-text-o" aria-hidden="true" style="margin-right: 10px"></span><span style="font-size: 20px;">Edit Electives/ IDC</span></a>
+		<a  class="a" onclick="openIDCToStudents()" href="#"><span class="fa fa-plus" aria-hidden="true" style="margin-right: 10px"></span><span style="font-size: 20px;">IDC->Student</span></a>
   		<a  class="a" onclick="openAllocateFaculty()" href="#"><span class="fa fa-users" style="margin-right: 10px"></span><span style="font-size: 20px;">Allocate Faculty</span></a>
   		<a  class="a" onclick="openReport()" href="#"><span class="fa fa-download" aria-hidden="true" style="margin-right: 10px"></span><span style="font-size: 20px;">Report</span></a>
   		<a  class="a" onclick="openStudentStatus()" href="#"><span class="fa fa-envelope-o" aria-hidden="true" style="margin-right: 10px"></span><span style="font-size: 20px;">Student Status</span></a>
@@ -1687,9 +1662,9 @@ function openSemCourseReport(){
 }
 
 function openReport(){
+	
 	var div = document.getElementById('content');
 	var btn = document.getElementById('pdf');
-	var z = document.getElementById("deptOfReport").value;
 	if (div.style.display == 'block') {
 		$("#table2").empty();
 		div.style.display = 'none';
@@ -1702,7 +1677,7 @@ function openReport(){
 		$.post(
 			'../db/calculateScore.php',
 			{
-				dept_id:z
+
 			},
 
 			function(result){
@@ -1715,85 +1690,64 @@ function openReport(){
 		$.post(
 			'../db/generateReport.php',
 			{
-				saveAll:1,
-				dept_id:z
+				saveAll:1
 
 			},
 
 			function(result){
 
 
-
 			}
 			);
-
-
-
-
 	}
-
 	closeNav();
-}
-
-
-
-function openReportOfDept(){
-	var z = document.getElementById("deptOfReport").value;
-	$("#table2").empty();
-
-	$.post(
-		'../db/calculateScore.php',
-		{
-			dept_id:z
-		},
-
-		function(result){
-
-			$('#table2').append(result);
-
-		}
-
-		);
-	$.post(
-		'../db/generateReport.php',
-		{
-			saveAll:1,
-			dept_id:z
-
-		},
-
-		function(result){
-
-		}
-		);
-
 }
 
 $(document).on("click", "#view_summary_report", function(){
 	$("#back_report").css("display","block");
 });
-
 $(document).on("click", "#view_sem_course_report", function(){
 	$("#back_semwise_report").css("display","block");
 });
 
-$(document).on("click", "#viewReport", function(){
-	var temp = $(this).parents("tr").find('#f_id').text(); 
-	var z = document.getElementById("deptOfReport").value;
-	$("#view_summary_report").css("display","none");
-	$("#view_sem_course_report").css("display","none");
-	$("#deptOfReport").css("display","none");
-
+// view_sem_course_report
+$(document).on("click", "#summary_report", function(){
 
 	$("#table2").empty();
+	$("#back").css("display","none");
+
+	$.post(
+		'../db/calculateScore.php',
+		{
+			f_id:f
+		},
+
+		function(result){
+
+			$('#table2').append(result);
+
+		}
+
+		);
+
+});
+
+
+
+$(document).on("click", "#viewReport", function(){
+	var temp = $(this).parents("tr").find('#f_id').text(); 
+	$("#view_summary_report").css("display","none");
+	$("#view_sem_course_report").css("display","none");
 	$("#back").css("display","block");
+
+	$("#table2").empty();
+
 
 
 	$.post(
 		'../db/viewReport.php',
 		{
-			f_id:temp,
-			dept_id:z
+			f_id:temp
 		},
 
 		function(result){
@@ -1807,13 +1761,6 @@ $(document).on("click", "#viewReport", function(){
 
 });
 
-$(document).on("click", "#back_report", function(){
-	$("#back_report").css("display","none");
-	$("#view_summary_report").css("display","inline");
-	$("#view_sem_course_report").css("display","inline");
-
-
-});
 
 $(document).on("click", "#back", function(){
 
@@ -1821,16 +1768,12 @@ $(document).on("click", "#back", function(){
 	$("#back").css("display","none");
 	$("#view_summary_report").css("display","inline");
 	$("#view_sem_course_report").css("display","inline");
-	$("#deptOfReport").css("display","block");
-
-
-	var z = document.getElementById("deptOfReport").value;
+	
 
 	$.post(
 		'../db/calculateScore.php',
 		{
-			f_id:f,
-			dept_id:z
+			f_id:f
 		},
 
 		function(result){
@@ -1847,9 +1790,9 @@ $(document).on("click", "#back", function(){
 
 $(document).on("click", "#downloadReport", function(){
 	var temp = $(this).parents("tr").find('#f_id').text(); 
-	var z = document.getElementById("deptOfReport").value;
 
-	var printWindow = window.open( "../db/test.php?f_id="+temp+"&dept_id="+z, 'Print', 'left=200, top=200, width=950, height=500, toolbar=0, resizable=0');
+
+	var printWindow = window.open( "../db/test.php?f_id="+temp, 'Print', 'left=200, top=200, width=950, height=500, toolbar=0, resizable=0');
 	printWindow.addEventListener('load', function(){
 
 		printWindow.print();
@@ -1897,7 +1840,6 @@ function openEditCourses(){
 function openElectives(){
 	var div = document.getElementById('Electives');
 
-
 	if (div.style.display == 'block') {
 		document.getElementById("tableElective").innerHTML="";
 		
@@ -1906,9 +1848,7 @@ function openElectives(){
 	}
 	else {
 		$("#main").children().not(div).css("display","none");
-		document.getElementById("tableElective").innerHTML="";
-		var d = document.getElementById("deptOfElectives").value;
-
+		
 
 		div.style.display = 'block';
 
@@ -1917,11 +1857,11 @@ function openElectives(){
 			'../db/fillElectivesTable.php',
 			{
 				tableElective:1,
-				dept_id:d
+
 			},
 
 			function(result){
-				$('#tableElective').append(result);
+				document.getElementById("tableElective").innerHTML=(result);
 
 			}
 
@@ -1931,31 +1871,6 @@ function openElectives(){
 
 	}
 	closeNav();
-}
-
-function openElectivesOfDept(dept){
-	var d = dept.value;
-
-	document.getElementById("tableElective").innerHTML="";
-	
-	
-	
-
-	$.post(
-		'../db/fillElectivesTable.php',
-		{
-			tableElective:1,
-			dept_id:d
-
-		},
-
-		function(result){
-			$('#tableElective').append(result);
-
-		}
-
-		);
-
 }
 
 function openAllocateFaculty(){
@@ -2005,7 +1920,6 @@ function openAddQues(){
 	}
 	closeNav();
 }
-
 function openIDCToStudents(){
 	var div = document.getElementById('IDCToStudent');
 
@@ -2020,7 +1934,6 @@ function openIDCToStudents(){
 	}
 	closeNav();
 }
-
 function openAddStudent(){
 	var div = document.getElementById('Student');
 
@@ -2055,12 +1968,10 @@ function openAddFaculty(){
 		if(temp){
 			temp.parentNode.removeChild(temp);
 		}
-		var z = document.getElementById("deptOfFaculty").value;
 		$.post(
 			'../db/showFaculty.php',
 			{
 				table5:1,
-				dept_id:z
 			},
 			function(result){
 
@@ -2076,51 +1987,19 @@ function openAddFaculty(){
 	closeNav();
 }
 
-function openAddFacultyOfDept(){
-	
-	
-	$("#table212").empty();
-
-
-	var temp=document.getElementById("faculty_5")
-	if(temp){
-		temp.parentNode.removeChild(temp);
-	}
-	var z = document.getElementById("deptOfFaculty").value;
-	$.post(
-		'../db/showFaculty.php',
-		{
-			table5:1,
-			dept_id:z
-		},
-		function(result){
-
-			$('#table212').append(result);
-
-		}
-		);
-
-}
-
-
 function openState(){
 	var div = document.getElementById('state');
-
 
 	if (div.style.display == 'block') {
 		div.style.display = 'none';
 	}
 	else {
 		$("#main").children().not(div).css("display","none");
-		div.style.display = 'block';
-		var e = document.getElementById("deptOfState");
-		var d=e.options[e.selectedIndex].value;
 
 		$.post(
 			'../db/status.php',
 			{
-				showstatus:1,
-				dept_id:d
+				showstatus:1
 			},
 
 			function(result){
@@ -2129,29 +2008,9 @@ function openState(){
 
 			}
 			);
-		
+		div.style.display = 'block';
 	}
 	closeNav();
-}
-function openStateOfDept(){
-	var div = document.getElementById('state');
-
-	div.style.display = 'block';
-	var e = document.getElementById("deptOfState");
-	var d=e.options[e.selectedIndex].value;
-	$.post(
-		'../db/status.php',
-		{
-			showstatus:1,
-			dept_id:d
-		},
-
-		function(result){
-
-			document.getElementById("message").innerHTML=result;
-
-		}
-		);
 }
 
 function downloadAll(){
@@ -2182,7 +2041,7 @@ function saveSummary(){
 
 		function(result){
 
-			alert("Downloading Summary");
+			//alert("Downloading Summary");
 			window.location.href="../db/downloadSummary.php";
 		}
 		);
@@ -2218,25 +2077,18 @@ function mail(){
 <!--outer division starts-->
 <div id="outer">
 
-
 	<!--main div starts--> 
 	<div id="main" style=" width: 80vw; margin-left: 5vw;">
 		<!--content div starts--> 
 		<div id="content" class="content">
+			<br>
+			<button  id="back" style="display: none;" class="btn btn-success">Back</button>
+
 			<button id="view_summary_report" class="btn btn-success" onclick="openSummaryReport()">View Summary Report</button>
 			<button id="view_sem_course_report" class="btn btn-success" onclick="openSemCourseReport()">View Sem-Wise All Courses Feedback</button>
 			<br><br>
-			<button  id="back" style="display: none;" class="btn btn-success">Back</button>
 			<br>
 			<br>
-			<select id="deptOfReport" onchange="openReportOfDept()" style="color: red; font-size: 20px; text-align: center;">			
-				<option value="1" selected>Computers</option>
-				<option value="2">IT</option>
-				<option value="3">ETRX</option>
-				<option value="4">EXTC</option>
-				<option value="5">Mechanical</option>
-				<option value="6">S & H</option>			
-			</select>
 			<div  id="table2">
 			</div>
 
@@ -2248,15 +2100,25 @@ function mail(){
 
 -->
 
-
 </div>
 <!--content div ends--> 
 
+<?php 
+$sql = "SELECT sem_type from current_state where dept_id='$dept_id'";
+$res = $conn->query($sql);                     
+while($r=$res->fetch_assoc()){ 
+  $sem_type=$r['sem_type'];
+}
+ ?>
+
+
+<!-- summary report -->
 <div id="summary_rep" style="display: none;">
 	<div class="table-wrapper" id="table_summary">
 		<div class="table-title">
 			<div class="row">
 				<button  id="back_report" style="display: none;" class="btn btn-success" onclick="openReport()">Back</button>
+
 				<div class="col-sm-8"><h2><b>Select year and semester</b></h2></div>
 				<div class="col-sm-4">
 					<!-- <button id="addnew2"type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button> -->
@@ -2295,7 +2157,6 @@ function mail(){
 </div> 
 <script type="text/javascript">
 		$('#getSummaryReport').click(function(){
-			var d = document.getElementById("deptOfReport").value;
 			var notSel;
 			var s_y = document.getElementById("sum_year");
 			var s=s_y.options[s_y.selectedIndex].value;
@@ -2315,7 +2176,6 @@ function mail(){
 				$.post(
 					'../db/getSummaryReport2.php',
 					{
-						dept_id:d,
 						year:s,
 						sem:a
 					},
@@ -2330,8 +2190,7 @@ function mail(){
 				
 			}
 		});
-
-	</script>
+</script>
 
 <!-- semester wise all courses report -->
 <div id="semwise_course_rep" style="display: none;">
@@ -2423,7 +2282,7 @@ function mail(){
 </div> 
 <script type="text/javascript">
 		$('#getSemwiseCourseReport').click(function(){
-			var d = document.getElementById("deptOfReport").value;
+
 			var swac_y = document.getElementById("swac_year");
 			var s=swac_y.options[swac_y.selectedIndex].value;
 			var swac_s = document.getElementById("swac_sem");
@@ -2438,7 +2297,6 @@ function mail(){
 				$.post(
 					'../db/getSemwiseAllCoursesReport.php',
 					{
-						dept_id:d,
 						year:s,
 						sem:a
 					},
@@ -2455,6 +2313,7 @@ function mail(){
 		});
 </script>
 
+
 <!--content1 div starts-->
 
 <div id="content1" class="content1">
@@ -2462,140 +2321,32 @@ function mail(){
 	
 	<br>
 	<p><b>
-		<select id="deptOfReminderStudent" class="deptOfReminderStudent">
-						<option disabled selected value value="base">Choose Department</option>			
-						<option value="1">Computers</option>
-						<option value="2">IT</option>
-						<option value="3">ETRX</option>
-						<option value="4">EXTC</option>
-						<option value="5">Mechanical</option>
-						<option value="6">S & H</option>			
-					</select>
-					<script type="text/javascript">
-						$(".deptOfReminderStudent").change( function() {
-
-				document.getElementById('FYA').style.display = 'none';
-				document.getElementById('FYB').style.display = 'none';
-				document.getElementById('SY').style.display = 'none';
-				document.getElementById('TY').style.display = 'none';
-				document.getElementById('LY').style.display = 'none';
-				document.getElementById('MTC').style.display = 'none';
-				document.getElementById('MTI').style.display = 'none';
-				document.getElementById('MTE').style.display = 'none';
-				document.getElementById('MTEX').style.display = 'none';
-				document.getElementById('MTM').style.display = 'none';
-
-    			var opt = $(this).children("option:selected").val();
-				if(opt=='1')
-				{
-					document.getElementById('SY').style.display = 'block';
-					document.getElementById('TY').style.display = 'block';
-					document.getElementById('LY').style.display = 'block';
-					document.getElementById('MTC').style.display = 'block';
-				}
-				else if(opt=='2')
-				{
-					document.getElementById('SY').style.display = 'block';
-					document.getElementById('TY').style.display = 'block';
-					document.getElementById('LY').style.display = 'block';
-					document.getElementById('MTI').style.display = 'block';
-				}
-				else if(opt=='3')
-				{
-					document.getElementById('SY').style.display = 'block';
-					document.getElementById('TY').style.display = 'block';
-					document.getElementById('LY').style.display = 'block';
-					document.getElementById('MTE').style.display = 'block';
-				}
-				else if(opt=='4')
-				{
-					document.getElementById('SY').style.display = 'block';
-					document.getElementById('TY').style.display = 'block';
-					document.getElementById('LY').style.display = 'block';
-					document.getElementById('MTEX').style.display = 'block';
-				}
-				else if(opt=='5')
-				{
-					document.getElementById('SY').style.display = 'block';
-					document.getElementById('TY').style.display = 'block';
-					document.getElementById('LY').style.display = 'block';
-					document.getElementById('MTM').style.display = 'block';
-				}
-				else
-				{
-					document.getElementById('FYA').style.display = 'block';
-					document.getElementById('FYB').style.display = 'block';
-				}
-			});
-		</script>
-
-					<select id="classOfReminderStudent" class="classOfReminderStudent">
-					<option disabled selected value value="base">Choose Class</option>
-					<option id="FYA" value="FY_A" >FY Group A</option>
-					<option id="FYB" value="FY_B" >FY Group B</option>
-					<option id="SY" value="SY" >SY</option>
-					<option id="TY" value="TY" >TY</option>
-					<option id="LY" value="LY" >LY</option>
-					<option id="MTC" value="MTech Comp" >MTech Comp</option>
-					<option id="MTI" value="MTech IT" >MTech IT</option>
-					<option id="MTE" value="MTech ETRX" >MTech ETRX</option>
-					<option id="MTEX" value="MTech EXTC" >MTech EXTC</option>
-					<option id="MTM" value="MTech Mech" >MTech Mech</option>
-
-				</select>
-
-				<script type="text/javascript">
-					$(".classOfReminderStudent").change( function() {
-
-				document.getElementById('A').style.display = 'none';
-				document.getElementById('B').style.display = 'none';
-				document.getElementById('C').style.display = 'none';
-				document.getElementById('D').style.display = 'none';
-				document.getElementById('E').style.display = 'none';
-				document.getElementById('F').style.display = 'none';
-				document.getElementById('G').style.display = 'none';
-				document.getElementById('H').style.display = 'none';
-				document.getElementById('I').style.display = 'none';
-				document.getElementById('J').style.display = 'none';
-
-    			var opt = $(this).children("option:selected").val();
-				if(opt=='SY' || opt=='TY' || opt=='LY')
-				{
-					document.getElementById('A').style.display = 'block';
-					document.getElementById('B').style.display = 'block';
-				}
-				else if(opt=='MTech Comp' || opt=='MTech IT' || opt=='MTech ETRX' || opt=='MTech EXTC' || opt=='MTech Mech')
-				{
-					document.getElementById('A').style.display = 'block';
-				}
-				else
-				{
-					document.getElementById('A').style.display = 'block';
-					document.getElementById('B').style.display = 'block';
-					document.getElementById('C').style.display = 'block';
-					document.getElementById('D').style.display = 'block';
-					document.getElementById('E').style.display = 'block';
-					document.getElementById('F').style.display = 'block';
-					document.getElementById('G').style.display = 'block';
-					document.getElementById('H').style.display = 'block';
-					document.getElementById('I').style.display = 'block';
-					document.getElementById('J').style.display = 'block';
-				}
-			});
-				</script>
+		<select id="classOfReminderStudent">
+			<option disabled selected value value="base">Choose Class</option>
+			<option value="FY_A" <?php if($dept_id!=6){ ?> hidden <?php } ?>>FY Group A</option>
+			<option value="FY_B" <?php if($dept_id!=6){ ?> hidden <?php } ?>>FY Group B</option>
+			<option value="SY" <?php if($dept_id==6){ ?> hidden <?php } ?>>SY</option>
+			<option value="TY" <?php if($dept_id==6){ ?> hidden <?php } ?>>TY</option>
+			<option value="LY" <?php if($dept_id==6){ ?> hidden <?php } ?>>LY</option>
+			<option value="MTech Comp" <?php if($dept_id!=1){ ?> hidden <?php } ?>>MTech Comp</option>
+			<option value="MTech IT" <?php if($dept_id!=2){ ?> hidden <?php } ?>>MTech IT</option>
+			<option value="MTech ETRX" <?php if($dept_id!=3){ ?> hidden <?php } ?>>MTech ETRX</option>
+			<option value="MTech EXTC" <?php if($dept_id!=4){ ?> hidden <?php } ?>>MTech EXTC</option>
+			<option value="MTech Mech" <?php if($dept_id!=5){ ?> hidden <?php } ?>>MTech Mech</option>
+		</select>
 		<select id="sectionOFReminderStudent">
 			<option disabled selected value value="base">Choose Section</option>
 			<option value="All">All</option>
-			<option id="A" value="A" >A</option>
-			<option id="B" value="B" >B</option>
-			<option id="C" value="C" >C</option>
-			<option id="D" value="D" >D</option>
-			<option id="E" value="E" >E</option>
-			<option id="F" value="F" >F</option>
-			<option id="G" value="G" >G</option>
-			<option id="H" value="H" >H</option>
-			<option id="I" value="I" >I</option>
-			<option id="J" value="J" >J</option>										
+			<option value="A" >A</option>
+			<option value="B" >B</option>
+			<option value="C" <?php if($dept_id!=6){ ?> hidden <?php } ?>>C</option>
+			<option value="D" <?php if($dept_id!=6){ ?> hidden <?php } ?>>D</option>
+			<option value="E" <?php if($dept_id!=6){ ?> hidden <?php } ?>>E</option>
+			<option value="F" <?php if($dept_id!=6){ ?> hidden <?php } ?>>F</option>
+			<option value="G" <?php if($dept_id!=6){ ?> hidden <?php } ?>>G</option>
+			<option value="H" <?php if($dept_id!=6){ ?> hidden <?php } ?>>H</option>
+			<option value="I" <?php if($dept_id!=6){ ?> hidden <?php } ?>>I</option>
+			<option value="J" <?php if($dept_id!=6){ ?> hidden <?php } ?>>J</option>										
 		</select>
 	</b>
 	<button id="getDataOfReminderStudent">Get Data</button>
@@ -2607,7 +2358,6 @@ function mail(){
 			var s=e.options[e.selectedIndex].value;
 			var f = document.getElementById("sectionOFReminderStudent");
 			var a=f.options[f.selectedIndex].value;
-			var z = document.getElementById("deptOfReminderStudent").value;
 
 			if(e.selectedIndex<=0 || f.selectedIndex<=0){
 				alert("Select section and class!");
@@ -2619,8 +2369,7 @@ function mail(){
 					'../db/checkStudentStatus.php',
 					{
 						class:s,
-						section:a,
-						dept_id:z
+						section:a
 					},
 
 					function(result){
@@ -2645,198 +2394,50 @@ function mail(){
 <!--state div starts-->
 <div id="state">
 	<br><br>
-	<p>
-		<b style="font-size: 20px;">Department: <select id="deptOfState" onchange="openStateOfDept()" style="color: red;">			
-			<option value="1" selected>Computers</option>
-			<option value="2">IT</option>
-			<option value="3">ETRX</option>
-			<option value="4">EXTC</option>
-			<option value="5">Mechanical</option>
-			<option value="6">S & H</option>			
-		</select></b>
-		<b id="message"></b></p><br><br>
+	<p><b id="message"></b></p><br><br>
 
-		<script type="text/javascript">
+	<script type="text/javascript">
 
-			function setEndTime(){
+		function setEndTime(){
 
-				if(confirm("Are you sure about setting the end time of Feedback?")){
-					var end_year=document.getElementById("end_year").value;
-					var end_month=document.getElementById("end_month").value;
-					var end_day=document.getElementById("end_day").value;
-					var end_hour=document.getElementById("end_hour").value;
-					var end_minute=document.getElementById("end_minute").value;
-					var end_second=document.getElementById("end_second").value;
-					var z = document.getElementById("deptOfState").value;
-
-					$.post(
-						'../db/status.php',
-						{
-							changeEndTime:1,
-							dept_id:z,
-							end_time:end_year+"-"+end_month+"-"+end_day+"  "+end_hour+":"+end_minute+":"+end_second
-						},
-
-						function(result){
-
-							document.getElementById("message").innerHTML=result;
-
-						}
-						);
-				}
-
-			}
-			function setStartTime(){
-
-				if(confirm("Are you sure about setting the start time of Feedback?")){
-					var start_year=document.getElementById("start_year").value;
-					var start_month=document.getElementById("start_month").value;
-					var start_day=document.getElementById("start_day").value;
-					var start_hour=document.getElementById("start_hour").value;
-					var start_minute=document.getElementById("start_minute").value;
-					var start_second=document.getElementById("start_second").value;
-					var z = document.getElementById("deptOfState").value;
-					$.post(
-						'../db/status.php',
-						{
-							changeStartTime:1,
-							dept_id:z,
-							start_time:start_year+"-"+start_month+"-"+start_day+"  "+start_hour+":"+start_minute+":"+start_second
-
-						},
-
-						function(result){
-
-							document.getElementById("message").innerHTML=result;
-
-						}
-						);
-				}
-
-			}
-			function changeStatus(){
-				var z = document.getElementById("deptOfState").value;
-				if(confirm("Are you sure about changing the period of Feedback?")){
-					$.post(
-						'../db/status.php',
-						{
-							changestatus:1,
-							dept_id:z
-						},
-
-						function(result){
-
-							document.getElementById("message").innerHTML=result;
-
-						}
-						);
-				}
-
-			}
-			function changeAcadYear(){
-				var z = document.getElementById("deptOfState").value;
-				if(confirm("Are you sure about changing the academic year?")){
-					var acadyear=document.getElementById("acad_year").value;
-					$.post(
-						'../db/status.php',
-						{
-							changeAcadYear:1,
-							acad_year:acadyear,
-							dept_id:z
-						},
-
-						function(result){
-
-							document.getElementById("message").innerHTML=result;
-
-						}
-						);
-				}
-
-			}
-			function changeSemType(){
-				var z = document.getElementById("deptOfState").value;
-				if(confirm("Are you sure about changing the semester type?")){
-					$.post(
-						'../db/status.php',
-						{
-							changeSemType:1,
-							dept_id:z
-						},
-
-						function(result){
-
-							document.getElementById("message").innerHTML=result;
-
-						}
-						);
-				}
-			}
-
-			function saveChanges(){
-				if(confirm("Are you sure about saving the changes?")){
-
-					var endyear=document.getElementById("end_year").value;
-					var endmonth=document.getElementById("end_month").value;
-					var endday=document.getElementById("end_day").value;
-					var endhour=document.getElementById("end_hour").value;
-					var endminute=document.getElementById("end_minute").value;
-					var endsecond=document.getElementById("end_second").value;
-
-					var startyear=document.getElementById("start_year").value;
-					var startmonth=document.getElementById("start_month").value;
-					var startday=document.getElementById("start_day").value;
-					var starthour=document.getElementById("start_hour").value;
-					var startminute=document.getElementById("start_minute").value;
-					var startsecond=document.getElementById("start_second").value;
-
-					var acadyear=document.getElementById("acad_year").value;
-					var d = document.getElementById("deptOfState").value;
-
-
-
-					if(document.getElementById("odd").checked){
-						var semtype = "Odd";
-					}
-					else{
-						var semtype = "Even";
-					}
-
-					if(document.getElementById("end").checked){
-						var curstatus = 1;
-					}
-					else{
-						var curstatus = 0;
-					}
-				} 
+			if(confirm("Are you sure about setting the end time of Feedback?")){
+				var end_year=document.getElementById("end_year").value;
+				var end_month=document.getElementById("end_month").value;
+				var end_day=document.getElementById("end_day").value;
+				var end_hour=document.getElementById("end_hour").value;
+				var end_minute=document.getElementById("end_minute").value;
+				var end_second=document.getElementById("end_second").value;
 
 				$.post(
 					'../db/status.php',
 					{
-						saveChanges:1,
-						dept_id:d,
-						sem_type:semtype,
+						changeEndTime:1,
+						end_time:end_year+"-"+end_month+"-"+end_day+"  "+end_hour+":"+end_minute+":"+end_second
+					},
 
-						cur_status:curstatus,
+					function(result){
 
-						end_year:endyear,
-						end_month:endmonth,
-						end_day:endday,
-						end_hour:endhour,
-						end_minute:endminute,
-						end_second:endsecond,
+						document.getElementById("message").innerHTML=result;
 
-						start_year:startyear,
-						start_month:startmonth,
-						start_day:startday,
-						start_hour:starthour,
-						start_minute:startminute,
-						start_second:startsecond,
+					}
+					);
+			}
 
-						end_time: endyear+"-"+endmonth+"-"+endday+"  "+endhour+":"+endminute+":"+endsecond,
-						start_time: startyear+"-"+startmonth+"-"+startday+"  "+starthour+":"+startminute+":"+startsecond,
+		}
+		function setStartTime(){
 
-						acad_year:acadyear
+			if(confirm("Are you sure about setting the start time of Feedback?")){
+				var start_year=document.getElementById("start_year").value;
+				var start_month=document.getElementById("start_month").value;
+				var start_day=document.getElementById("start_day").value;
+				var start_hour=document.getElementById("start_hour").value;
+				var start_minute=document.getElementById("start_minute").value;
+				var start_second=document.getElementById("start_second").value;
+				$.post(
+					'../db/status.php',
+					{
+						changeStartTime:1,
+						start_time:start_year+"-"+start_month+"-"+start_day+"  "+start_hour+":"+start_minute+":"+start_second
 
 					},
 
@@ -2847,152 +2448,214 @@ function mail(){
 					}
 					);
 			}
-		</script>
 
-	</div>
-	<!--state div ends-->
+		}
+		function changeStatus(){
 
-	<!--courses div starts--> 
+			if(confirm("Are you sure about changing the period of Feedback?")){
+				$.post(
+					'../db/status.php',
+					{
+						changestatus:1
+					},
+
+					function(result){
+
+						document.getElementById("message").innerHTML=result;
+
+					}
+					);
+			}
+
+		}
+		function changeAcadYear(){
+
+			if(confirm("Are you sure about changing the academic year?")){
+				var acadyear=document.getElementById("acad_year").value;
+				$.post(
+					'../db/status.php',
+					{
+						changeAcadYear:1,
+						acad_year:acadyear
+					},
+
+					function(result){
+
+						document.getElementById("message").innerHTML=result;
+
+					}
+					);
+			}
+
+		}
+		function changeSemType(){
+
+			if(confirm("Are you sure about changing the semester type?")){
+				$.post(
+					'../db/status.php',
+					{
+						changeSemType:1
+					},
+
+					function(result){
+
+						document.getElementById("message").innerHTML=result;
+
+					}
+					);
+			}
+		}
+
+		function saveChanges(){
+			if(confirm("Are you sure about saving the changes?")){
+
+				var endyear=document.getElementById("end_year").value;
+				var endmonth=document.getElementById("end_month").value;
+				var endday=document.getElementById("end_day").value;
+				var endhour=document.getElementById("end_hour").value;
+				var endminute=document.getElementById("end_minute").value;
+				var endsecond=document.getElementById("end_second").value;
+
+				var startyear=document.getElementById("start_year").value;
+				var startmonth=document.getElementById("start_month").value;
+				var startday=document.getElementById("start_day").value;
+				var starthour=document.getElementById("start_hour").value;
+				var startminute=document.getElementById("start_minute").value;
+				var startsecond=document.getElementById("start_second").value;
+
+				var acadyear=document.getElementById("acad_year").value;
+				
+				if(document.getElementById("odd").checked){
+					var semtype = "Odd";
+				}
+				else{
+					var semtype = "Even";
+				}
+
+				if(document.getElementById("end").checked){
+					var curstatus = 1;
+				}
+				else{
+					var curstatus = 0;
+				}
+			} 
+
+			$.post(
+				'../db/status.php',
+				{
+					saveChanges:1,
+
+					sem_type:semtype,
+
+					cur_status:curstatus,
+
+					end_year:endyear,
+					end_month:endmonth,
+					end_day:endday,
+					end_hour:endhour,
+					end_minute:endminute,
+					end_second:endsecond,
+
+					start_year:startyear,
+					start_month:startmonth,
+					start_day:startday,
+					start_hour:starthour,
+					start_minute:startminute,
+					start_second:startsecond,
+
+					end_time: endyear+"-"+endmonth+"-"+endday+"  "+endhour+":"+endminute+":"+endsecond,
+					start_time: startyear+"-"+startmonth+"-"+startday+"  "+starthour+":"+startminute+":"+startsecond,
+
+					acad_year:acadyear
+
+				},
+
+				function(result){
+
+					document.getElementById("message").innerHTML=result;
+
+				}
+				);
+		}
+	</script>
+
+</div>
+<!--state div ends-->
+
+<!--courses div starts--> 
 
 
-	<div id="Courses">
+<div id="Courses">
 
 
-		<div id="table1" class="table-wrapper">
-			<div class="table-title">
-				<div class="row">
-					<div class="col-sm-8" style="text-align: center;"><b style="font-size: 25px;">Course Details</b></div>
-					<div class="col-sm-4">
-						<button id="addnew1" type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
-					</div>
+	<div id="table1" class="table-wrapper">
+		<div class="table-title">
+			<div class="row">
+				<div class="col-sm-8" style="text-align: center;"><b style="font-size: 25px;">Course Details</b></div>
+				<div class="col-sm-4">
+					<button id="addnew1" type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
 				</div>
 			</div>
-			<br><br>
-			<b>Precede the course codes with "TH_" for theory courses, "L_" for Lab courses and "TU_" for tutorials</b>
-			<br><br>
-			<p>
-				<b>
-					<select id="deptOfCourses" class="deptOfCourses">
-						<option disabled selected value value="base">Choose Department</option>			
-						<option value="1">Computers</option>
-						<option value="2">IT</option>
-						<option value="3">ETRX</option>
-						<option value="4">EXTC</option>
-						<option value="5">Mechanical</option>
-						<option value="6">S & H</option>			
-					</select>
-					<script type="text/javascript">
-						$(".deptOfCourses").change( function() {
-
-				document.getElementById('fya').style.display = 'none';
-				document.getElementById('fyb').style.display = 'none';
-				document.getElementById('sy').style.display = 'none';
-				document.getElementById('ty').style.display = 'none';
-				document.getElementById('ly').style.display = 'none';
-				document.getElementById('mtc').style.display = 'none';
-				document.getElementById('mti').style.display = 'none';
-				document.getElementById('mte').style.display = 'none';
-				document.getElementById('mtex').style.display = 'none';
-				document.getElementById('mtm').style.display = 'none';
-
-    			var opt = $(this).children("option:selected").val();
-				if(opt=='1')
-				{
-					document.getElementById('sy').style.display = 'block';
-					document.getElementById('ty').style.display = 'block';
-					document.getElementById('ly').style.display = 'block';
-					document.getElementById('mtc').style.display = 'block';
-				}
-				else if(opt=='2')
-				{
-					document.getElementById('sy').style.display = 'block';
-					document.getElementById('ty').style.display = 'block';
-					document.getElementById('ly').style.display = 'block';
-					document.getElementById('mti').style.display = 'block';
-				}
-				else if(opt=='3')
-				{
-					document.getElementById('sy').style.display = 'block';
-					document.getElementById('ty').style.display = 'block';
-					document.getElementById('ly').style.display = 'block';
-					document.getElementById('mte').style.display = 'block';
-				}
-				else if(opt=='4')
-				{
-					document.getElementById('sy').style.display = 'block';
-					document.getElementById('ty').style.display = 'block';
-					document.getElementById('ly').style.display = 'block';
-					document.getElementById('mtex').style.display = 'block';
-				}
-				else if(opt=='5')
-				{
-					document.getElementById('sy').style.display = 'block';
-					document.getElementById('ty').style.display = 'block';
-					document.getElementById('ly').style.display = 'block';
-					document.getElementById('mtm').style.display = 'block';
-				}
-				else
-				{
-					document.getElementById('fya').style.display = 'block';
-					document.getElementById('fyb').style.display = 'block';
-				}
-			});
-		</script>
-
-					<select id="class" class="select_class">
+		</div>
+		<br><br>
+		<b>Precede the course codes with "TH_" for theory courses, "L_" for Lab courses and "TU_" for tutorials</b>
+		<br><br>
+		<p>
+			<b>
+				<select id="class" class="select_class">
 					<option disabled selected value value="base">Choose Class</option>
-					<option id="fya" value="FY_A" >FY Group A</option>
-					<option id="fyb" value="FY_B" >FY Group B</option>
-					<option id="sy" value="SY" >SY</option>
-					<option id="ty" value="TY" >TY</option>
-					<option id="ly" value="LY" >LY</option>
-					<option id="mtc" value="MTech Comp" >MTech Comp</option>
-					<option id="mti" value="MTech IT" >MTech IT</option>
-					<option id="mte" value="MTech ETRX" >MTech ETRX</option>
-					<option id="mtex" value="MTech EXTC" >MTech EXTC</option>
-					<option id="mtm" value="MTech Mech" >MTech Mech</option>
+					<option value="FY_A" <?php if($dept_id!=6){ ?> hidden <?php } ?>>FY Group A</option>
+					<option value="FY_B" <?php if($dept_id!=6){ ?> hidden <?php } ?>>FY Group B</option>
+					<option value="SY" <?php if($dept_id==6){ ?> hidden <?php } ?>>SY</option>
+					<option value="TY" <?php if($dept_id==6){ ?> hidden <?php } ?>>TY</option>
+					<option value="LY" <?php if($dept_id==6){ ?> hidden <?php } ?>>LY</option>
+					<option value="MTech Comp" <?php if($dept_id!=1){ ?> hidden <?php } ?>>MTech Comp</option>
+					<option value="MTech IT" <?php if($dept_id!=2){ ?> hidden <?php } ?>>MTech IT</option>
+					<option value="MTech ETRX" <?php if($dept_id!=3){ ?> hidden <?php } ?>>MTech ETRX</option>
+					<option value="MTech EXTC" <?php if($dept_id!=4){ ?> hidden <?php } ?>>MTech EXTC</option>
+					<option value="MTech Mech" <?php if($dept_id!=5){ ?> hidden <?php } ?>>MTech Mech</option>
 
 				</select>
 				
-			<script type="text/javascript">
-				$(".select_class").change( function() {
-				document.getElementById('fy1').style.display = 'none';
-				document.getElementById('sy1').style.display = 'none';
-				document.getElementById('ty1').style.display = 'none';
-				document.getElementById('ly1').style.display = 'none';
-				document.getElementById('fy2').style.display = 'none';
-				document.getElementById('sy2').style.display = 'none';
-				document.getElementById('ty2').style.display = 'none';
-				document.getElementById('ly2').style.display = 'none';
-    			var op = $(this).children("option:selected").val();
-				if(op=='FY_A'||op=='FY_B')
-				{
-					document.getElementById('fy1').style.display = 'block';
-					document.getElementById('fy2').style.display = 'block';
-				}
-				else if(op=='SY')
-				{
-					document.getElementById('sy1').style.display = 'block';
-					document.getElementById('sy2').style.display = 'block';
-				}
-				else if(op=='TY')
-				{
-					document.getElementById('ty1').style.display = 'block';
-					document.getElementById('ty2').style.display = 'block';
+				<script type="text/javascript">
+					$(".select_class").change( function() {
+						document.getElementById('fy1').style.display = 'none';
+						document.getElementById('sy1').style.display = 'none';
+						document.getElementById('ty1').style.display = 'none';
+						document.getElementById('ly1').style.display = 'none';
+						document.getElementById('fy2').style.display = 'none';
+						document.getElementById('sy2').style.display = 'none';
+						document.getElementById('ty2').style.display = 'none';
+						document.getElementById('ly2').style.display = 'none';
+						var op = $(this).children("option:selected").val();
+						if(op=='FY_A'||op=='FY_B')
+						{
+							document.getElementById('fy1').style.display = 'block';
+							document.getElementById('fy2').style.display = 'block';
+						}
+						else if(op=='SY')
+						{
+							document.getElementById('sy1').style.display = 'block';
+							document.getElementById('sy2').style.display = 'block';
+						}
+						else if(op=='TY')
+						{
+							document.getElementById('ty1').style.display = 'block';
+							document.getElementById('ty2').style.display = 'block';
 
-				}
-				else if(op=='LY')
-				{
-					document.getElementById('ly1').style.display = 'block';
-					document.getElementById('ly2').style.display = 'block';
-				}
-				else
-				{
-					document.getElementById('fy1').style.display = 'block';
-					document.getElementById('fy2').style.display = 'block';
-				}
-			});
-		</script>
+						}
+						else if(op=='LY')
+						{
+							document.getElementById('ly1').style.display = 'block';
+							document.getElementById('ly2').style.display = 'block';
+						}
+						else
+						{
+							document.getElementById('fy1').style.display = 'block';
+							document.getElementById('fy2').style.display = 'block';
+						}
+					});
+				</script>
 
 				<select id="sem">
 					<option disabled selected value value="base">Choose Semester</option>
@@ -3005,11 +2668,11 @@ function mail(){
 					<option value="7" id="ly1" style="display: none;">Semester 7</option>
 					<option value="8" id="ly2" style="display: none;">Semester 8</option>
 				</select>
-				</b>
-				<button id="getData">Get Data</button>
-				<div id="frame">
-					<script type="text/javascript">
-						$('#getData').click(function(){
+			</b>
+			<button id="getData">Get Data</button>
+			<div id="frame">
+				<script type="text/javascript">
+					$('#getData').click(function(){
               //$("#data").html('Loading...');
               var temp=document.getElementById("1")
               if(temp){
@@ -3019,7 +2682,6 @@ function mail(){
               var s=e.options[e.selectedIndex].value;
               var f = document.getElementById("class");
               var a=f.options[f.selectedIndex].value;
-              var z = document.getElementById("deptOfCourses").value;
 
               if(e.selectedIndex<=0 || f.selectedIndex<=0){
               	alert("Select Semester and Class!");
@@ -3031,8 +2693,7 @@ function mail(){
               		{
               			table1:1,
               			class:a,
-              			sem:s,
-              			dept_id:z
+              			sem:s
               		},
 
               		function(result){
@@ -3067,29 +2728,17 @@ function mail(){
 			</div>
 		</div>
 		<br><br>
-		<select id="deptOfElectives" onchange="openElectivesOfDept(this)">
-
-			<option value="1" selected>Computers</option>
-			<option value="2">IT</option>
-			<option value="3">ETRX</option>
-			<option value="4">EXTC</option>
-			<option value="5">Mechanical</option>
-			<option value="6">S & H</option>			
-		</select>
-		<br><br>
 		<b>Precede the course codes with "TH_" for theory courses and "L_" for Lab courses</b>
 		<br><br>
 		<div id="tableElective">
 		</div>
-
-
 		
 
 
 	</div>
+	
 </div>
 <!--Electives ends-->
-
 <!-- Assign electives to students-->
 <div id="IDCToStudent">
 <div class="tab-pane" style="text-align: center;">
@@ -3131,7 +2780,7 @@ function mail(){
 		});
 </script>
 </div>
-
+<!-- Assign electives to students ends-->
 <!--Allocate Faculty div starts-->
 <div id="allocateFaculty">
 	<div class="table-wrapper" id="table123">
@@ -3139,188 +2788,120 @@ function mail(){
 			<div class="row">
 				<div class="col-sm-8"><h2><b>Allocation Details</b></h2></div>
 				<div class="col-sm-4">
-				<!-- 	<button id="addnew2"type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button> -->
+					<!-- <button id="addnew2"type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button> -->
 				</div>
 			</div>
 		</div>
 		<p><b>
-			<select id="deptOfAllocateFaculty" class="deptOfAllocateFaculty">
-						<option disabled selected value value="base">Choose Department</option>			
-						<option value="1">Computers</option>
-						<option value="2">IT</option>
-						<option value="3">ETRX</option>
-						<option value="4">EXTC</option>
-						<option value="5">Mechanical</option>
-						<option value="6">S & H</option>			
-					</select>
-					<script type="text/javascript">
-						$(".deptOfAllocateFaculty").change( function() {
-
-				document.getElementById('fya22').style.display = 'none';
-				document.getElementById('fyb22').style.display = 'none';
-				document.getElementById('Sy22').style.display = 'none';
-				document.getElementById('Ty22').style.display = 'none';
-				document.getElementById('Ly22').style.display = 'none';
-				document.getElementById('mtc22').style.display = 'none';
-				document.getElementById('mti22').style.display = 'none';
-				document.getElementById('mte22').style.display = 'none';
-				document.getElementById('mtex22').style.display = 'none';
-				document.getElementById('mtm22').style.display = 'none';
-
-    			var optn = $(this).children("option:selected").val();
-				if(optn=='1')
-				{
-					document.getElementById('Sy22').style.display = 'block';
-					document.getElementById('Ty22').style.display = 'block';
-					document.getElementById('Ly22').style.display = 'block';
-					document.getElementById('mtc22').style.display = 'block';
-				}
-				else if(optn=='2')
-				{
-					document.getElementById('Sy22').style.display = 'block';
-					document.getElementById('Ty22').style.display = 'block';
-					document.getElementById('Ly22').style.display = 'block';
-					document.getElementById('mti22').style.display = 'block';
-				}
-				else if(optn=='3')
-				{
-					document.getElementById('Sy22').style.display = 'block';
-					document.getElementById('Ty22').style.display = 'block';
-					document.getElementById('Ly22').style.display = 'block';
-					document.getElementById('mte22').style.display = 'block';
-				}
-				else if(optn=='4')
-				{
-					document.getElementById('Sy22').style.display = 'block';
-					document.getElementById('Ty22').style.display = 'block';
-					document.getElementById('Ly22').style.display = 'block';
-					document.getElementById('mtex22').style.display = 'block';
-				}
-				else if(optn=='5')
-				{
-					document.getElementById('Sy22').style.display = 'block';
-					document.getElementById('Ty22').style.display = 'block';
-					document.getElementById('Ly22').style.display = 'block';
-					document.getElementById('mtm22').style.display = 'block';
-				}
-				else
-				{
-					document.getElementById('fya22').style.display = 'block';
-					document.getElementById('fyb22').style.display = 'block';
-				}
-			});
-		</script>
-
-					<select id="class2" class="select_class2">
-					<option disabled selected value value="base">Choose Class</option>
-					<option id="fya22" value="FY_A" >FY Group A</option>
-					<option id="fyb22" value="FY_B" >FY Group B</option>
-					<option id="Sy22" value="SY" >SY</option>
-					<option id="Ty22" value="TY" >TY</option>
-					<option id="Ly22" value="LY" >LY</option>
-					<option id="mtc22" value="MTech Comp" >MTech Comp</option>
-					<option id="mti22" value="MTech IT" >MTech IT</option>
-					<option id="mte22" value="MTech ETRX" >MTech ETRX</option>
-					<option id="mtex22" value="MTech EXTC" >MTech EXTC</option>
-					<option id="mtm22" value="MTech Mech" >MTech Mech</option>
-
-				</select>
-				
+			<select id="class2" class="select_class2">
+				<option disabled selected value value="base">Choose Class</option>
+				<option value="FY_A" <?php if($dept_id!=6){ ?> hidden <?php } ?>>FY Group A</option>
+				<option value="FY_B" <?php if($dept_id!=6){ ?> hidden <?php } ?>>FY Group B</option>
+				<option value="SY" <?php if($dept_id==6){ ?> hidden <?php } ?>>SY</option>
+				<option value="TY" <?php if($dept_id==6){ ?> hidden <?php } ?>>TY</option>
+				<option value="LY" <?php if($dept_id==6){ ?> hidden <?php } ?>>LY</option>
+				<option value="MTech Comp" <?php if($dept_id!=1){ ?> hidden <?php } ?>>MTech Comp</option>
+				<option value="MTech IT" <?php if($dept_id!=2){ ?> hidden <?php } ?>>MTech IT</option>
+				<option value="MTech ETRX" <?php if($dept_id!=3){ ?> hidden <?php } ?>>MTech ETRX</option>
+				<option value="MTech EXTC" <?php if($dept_id!=4){ ?> hidden <?php } ?>>MTech EXTC</option>
+				<option value="MTech Mech" <?php if($dept_id!=5){ ?> hidden <?php } ?>>MTech Mech</option>
+			</select>
 			<script type="text/javascript">
 				$(".select_class2").change( function() {
-				document.getElementById('fy11').style.display = 'none';
-				document.getElementById('sy11').style.display = 'none';
-				document.getElementById('ty11').style.display = 'none';
-				document.getElementById('ly11').style.display = 'none';
-				document.getElementById('fy22').style.display = 'none';
-				document.getElementById('sy22').style.display = 'none';
-				document.getElementById('ty22').style.display = 'none';
-				document.getElementById('ly22').style.display = 'none';
-    			var o = $(this).children("option:selected").val();
-				if(o=='FY_A'||o=='FY_B')
-				{
-					document.getElementById('fy11').style.display = 'block';
-					document.getElementById('fy22').style.display = 'block';
-				}
-				else if(o=='SY')
-				{
-					document.getElementById('sy11').style.display = 'block';
-					document.getElementById('sy22').style.display = 'block';
-				}
-				else if(o=='TY')
-				{
-					document.getElementById('ty11').style.display = 'block';
-					document.getElementById('ty22').style.display = 'block';
+					document.getElementById('fy1_2').style.display = 'none';
+					document.getElementById('sy1_2').style.display = 'none';
+					document.getElementById('ty1_2').style.display = 'none';
+					document.getElementById('ly1_2').style.display = 'none';
+					document.getElementById('fy2_2').style.display = 'none';
+					document.getElementById('sy2_2').style.display = 'none';
+					document.getElementById('ty2_2').style.display = 'none';
+					document.getElementById('ly2_2').style.display = 'none';
+					var op = $(this).children("option:selected").val();
+					if(op=='FY_A'||op=='FY_B')
+					{
+						document.getElementById('fy1_2').style.display = 'block';
+						document.getElementById('fy2_2').style.display = 'block';
+					}
+					else if(op=='SY')
+					{
+						document.getElementById('sy1_2').style.display = 'block';
+						document.getElementById('sy2_2').style.display = 'block';
+					}
+					else if(op=='TY')
+					{
+						document.getElementById('ty1_2').style.display = 'block';
+						document.getElementById('ty2_2').style.display = 'block';
 
-				}
-				else if(o=='LY')
-				{
-					document.getElementById('ly11').style.display = 'block';
-					document.getElementById('ly22').style.display = 'block';
-				}
-				else
-				{
-					document.getElementById('fy11').style.display = 'block';
-					document.getElementById('fy22').style.display = 'block';
-				}
-			});
-		</script>
+					}
+					else if(op=='LY')
+					{
+						document.getElementById('ly1_2').style.display = 'block';
+						document.getElementById('ly2_2').style.display = 'block';
+					}
+					else
+					{
+						document.getElementById('fy1_2').style.display = 'block';
+						document.getElementById('fy2_2').style.display = 'block';
+					}
+				});
+			</script>
 
-				<select id="sem2">
-					<option disabled selected value value="base">Choose Semester</option>
-					<option value="1" id="fy11" style="display: none;">Semester 1</option>
-					<option value="2" id="fy22" style="display: none;">Semester 2</option>
-					<option value="3" id="sy11" style="display: none;">Semester 3</option>
-					<option value="4" id="sy22" style="display: none;">Semester 4</option>
-					<option value="5" id="ty11" style="display: none;">Semester 5</option>
-					<option value="6" id="ty22" style="display: none;">Semester 6</option>
-					<option value="7" id="ly11" style="display: none;">Semester 7</option>
-					<option value="8" id="ly22" style="display: none;">Semester 8</option>
-				</select>
+			<select id="sem2">
+				<option disabled selected value value="base">Choose Semester</option>
+				<option value="1" id="fy1_2" style="display: none;">Semester 1</option>
+				<option value="2" id="fy2_2" style="display: none;">Semester 2</option>
+				<option value="3" id="sy1_2" style="display: none;">Semester 3</option>
+				<option value="4" id="sy2_2" style="display: none;">Semester 4</option>
+				<option value="5" id="ty1_2" style="display: none;">Semester 5</option>
+				<option value="6" id="ty2_2" style="display: none;">Semester 6</option>
+				<option value="7" id="ly1_2" style="display: none;">Semester 7</option>
+				<option value="8" id="ly2_2" style="display: none;">Semester 8</option>
+			</select>
 			<select id="section">
-				<option disabled selected value value="base">Choose Section/ Batch</option>
-				<option value="A">A</option>
-				<option value="B">B</option>
-				<option value="C">C</option>
-				<option value="D">D</option>
-				<option value="E">E</option>
-				<option value="F">F</option>
-				<option value="G">G</option>
-				<option value="H">H</option>
-				<option value="I">I</option>
-				<option value="J">J</option>
+				<option disabled selected value value="base">Choose Section</option>
+				<option value="All">All</option>
+				<option value="A" >A</option>
+				<option value="B" >B</option>
+				<option value="C" <?php if($dept_id!=6){ ?> hidden <?php } ?>>C</option>
+				<option value="D" <?php if($dept_id!=6){ ?> hidden <?php } ?>>D</option>
+				<option value="E" <?php if($dept_id!=6){ ?> hidden <?php } ?>>E</option>
+				<option value="F" <?php if($dept_id!=6){ ?> hidden <?php } ?>>F</option>
+				<option value="G" <?php if($dept_id!=6){ ?> hidden <?php } ?>>G</option>
+				<option value="H" <?php if($dept_id!=6){ ?> hidden <?php } ?>>H</option>
+				<option value="I" <?php if($dept_id!=6){ ?> hidden <?php } ?>>I</option>
+				<option value="J" <?php if($dept_id!=6){ ?> hidden <?php } ?>>J</option>	
 				<option value="A1">A1</option>
 				<option value="A2">A2</option>
 				<option value="A3">A3</option>
-				<option value="A4">A4</option>
+				<option value="A4" <?php if($dept_id==6){ ?> hidden <?php } ?>>A4</option>
 				<option value="B1">B1</option>
 				<option value="B2">B2</option>
 				<option value="B3">B3</option>
-				<option value="B4">B4</option>
-				<option value="C1">C1</option>
-				<option value="C2">C2</option>
-				<option value="C3">C3</option>
-				<option value="D1">D1</option>
-				<option value="D2">D2</option>
-				<option value="D3">D3</option>
-				<option value="E1">E1</option>
-				<option value="E2">E2</option>
-				<option value="E3">E3</option>
-				<option value="F1">F1</option>
-				<option value="F2">F2</option>
-				<option value="F3">F3</option>
-				<option value="G1">G1</option>
-				<option value="G2">G2</option>
-				<option value="G3">G3</option>
-				<option value="H1">H1</option>
-				<option value="H2">H2</option>
-				<option value="H3">H3</option>
-				<option value="I1">I1</option>
-				<option value="I2">I2</option>
-				<option value="I3">I3</option>
-				<option value="J1">J1</option>
-				<option value="J2">J2</option>
-				<option value="J3">J3</option>
+				<option value="B4" <?php if($dept_id==6){ ?> hidden <?php } ?>>B4</option>
+				<option value="C1" <?php if($dept_id!=6){ ?> hidden <?php } ?>>C1</option>
+				<option value="C2" <?php if($dept_id!=6){ ?> hidden <?php } ?>>C2</option>
+				<option value="C3" <?php if($dept_id!=6){ ?> hidden <?php } ?>>C3</option>
+				<option value="D1" <?php if($dept_id!=6){ ?> hidden <?php } ?>>D1</option>
+				<option value="D2" <?php if($dept_id!=6){ ?> hidden <?php } ?>>D2</option>
+				<option value="D3" <?php if($dept_id!=6){ ?> hidden <?php } ?>>D3</option>
+				<option value="E1" <?php if($dept_id!=6){ ?> hidden <?php } ?>>E1</option>
+				<option value="E2" <?php if($dept_id!=6){ ?> hidden <?php } ?>>E2</option>
+				<option value="E3" <?php if($dept_id!=6){ ?> hidden <?php } ?>>E3</option>
+				<option value="F1" <?php if($dept_id!=6){ ?> hidden <?php } ?>>F1</option>
+				<option value="F2" <?php if($dept_id!=6){ ?> hidden <?php } ?>>F2</option>
+				<option value="F3" <?php if($dept_id!=6){ ?> hidden <?php } ?>>F3</option>
+				<option value="G1" <?php if($dept_id!=6){ ?> hidden <?php } ?>>G1</option>
+				<option value="G2" <?php if($dept_id!=6){ ?> hidden <?php } ?>>G2</option>
+				<option value="G3" <?php if($dept_id!=6){ ?> hidden <?php } ?>>G3</option>
+				<option value="H1" <?php if($dept_id!=6){ ?> hidden <?php } ?>>H1</option>
+				<option value="H2" <?php if($dept_id!=6){ ?> hidden <?php } ?>>H2</option>
+				<option value="H3" <?php if($dept_id!=6){ ?> hidden <?php } ?>>H3</option>
+				<option value="I1" <?php if($dept_id!=6){ ?> hidden <?php } ?>>I1</option>
+				<option value="I2" <?php if($dept_id!=6){ ?> hidden <?php } ?>>I2</option>
+				<option value="I3" <?php if($dept_id!=6){ ?> hidden <?php } ?>>I3</option>
+				<option value="J1" <?php if($dept_id!=6){ ?> hidden <?php } ?>>J1</option>
+				<option value="J2" <?php if($dept_id!=6){ ?> hidden <?php } ?>>J2</option>
+				<option value="J3" <?php if($dept_id!=6){ ?> hidden <?php } ?>>J3</option>
 			</select>
 		</b>
 		<button id="getData2">Get Data</button>
@@ -3337,7 +2918,7 @@ function mail(){
               var a=f.options[f.selectedIndex].value;
               var t = document.getElementById("sem2");
               var r=t.options[t.selectedIndex].value;
-              var z = document.getElementById("deptOfAllocateFaculty").value;
+
               if(e.selectedIndex<=0 || f.selectedIndex<=0){
               	alert("Select section and class!");
               }
@@ -3348,8 +2929,7 @@ function mail(){
               			table2:1,
               			section:a,
               			class:s,
-              			sem:r,
-              			dept_id:z
+              			sem:r
               		},
 
               		function(result){
@@ -3386,16 +2966,6 @@ function mail(){
 		</div>
 		<p>
 			<input id="courseCode" type="text" name="Course_Code" list="suggestions_courses"  placeholder="Course Type" />
-			<select id="deptOfQuestions">
-				<option disabled selected value value="base">Choose Department</option>			
-				<option value="1">Computers</option>
-				<option value="2">IT</option>
-				<option value="3">ETRX</option>
-				<option value="4">EXTC</option>
-				<option value="5">Mechanical</option>
-				<option value="6">S & H</option>			
-			</select>
-
 			<button id="getData3">Get Data</button>
 
 
@@ -3414,13 +2984,12 @@ function mail(){
 					}
 
 
-					var z = document.getElementById("deptOfQuestions").value;
+
 					$.post(
 						'../db/QuestionsTable.php',
 						{
 							table3:1,
-							courseCode:value2send,
-							dept_id:z
+							courseCode:value2send
 						},
 
 						function(result){
@@ -3467,139 +3036,32 @@ function mail(){
 										<button id="addnew4" type="button" class="add-new"><i class="fa fa-plus"></i> Add New</button>
 									</div>
 									<p><b>
-										<select id="deptOfStudent" class="deptOfStudent">
-						<option disabled selected value value="base">Choose Department</option>			
-						<option value="1">Computers</option>
-						<option value="2">IT</option>
-						<option value="3">ETRX</option>
-						<option value="4">EXTC</option>
-						<option value="5">Mechanical</option>
-						<option value="6">S & H</option>			
-					</select>
-					<script type="text/javascript">
-						$(".deptOfStudent").change( function() {
-
-				document.getElementById('fy_a').style.display = 'none';
-				document.getElementById('fy_b').style.display = 'none';
-				document.getElementById('s_y').style.display = 'none';
-				document.getElementById('t_y').style.display = 'none';
-				document.getElementById('l_y').style.display = 'none';
-				document.getElementById('mt_c').style.display = 'none';
-				document.getElementById('mt_i').style.display = 'none';
-				document.getElementById('mt_e').style.display = 'none';
-				document.getElementById('mt_ex').style.display = 'none';
-				document.getElementById('mt_m').style.display = 'none';
-
-    			var opt = $(this).children("option:selected").val();
-				if(opt=='1')
-				{
-					document.getElementById('s_y').style.display = 'block';
-					document.getElementById('t_y').style.display = 'block';
-					document.getElementById('l_y').style.display = 'block';
-					document.getElementById('mt_c').style.display = 'block';
-				}
-				else if(opt=='2')
-				{
-					document.getElementById('s_y').style.display = 'block';
-					document.getElementById('t_y').style.display = 'block';
-					document.getElementById('l_y').style.display = 'block';
-					document.getElementById('mt_i').style.display = 'block';
-				}
-				else if(opt=='3')
-				{
-					document.getElementById('s_y').style.display = 'block';
-					document.getElementById('t_y').style.display = 'block';
-					document.getElementById('l_y').style.display = 'block';
-					document.getElementById('mt_e').style.display = 'block';
-				}
-				else if(opt=='4')
-				{
-					document.getElementById('s_y').style.display = 'block';
-					document.getElementById('t_y').style.display = 'block';
-					document.getElementById('l_y').style.display = 'block';
-					document.getElementById('mt_ex').style.display = 'block';
-				}
-				else if(opt=='5')
-				{
-					document.getElementById('s_y').style.display = 'block';
-					document.getElementById('t_y').style.display = 'block';
-					document.getElementById('l_y').style.display = 'block';
-					document.getElementById('mt_m').style.display = 'block';
-				}
-				else
-				{
-					document.getElementById('fy_a').style.display = 'block';
-					document.getElementById('fy_b').style.display = 'block';
-				}
-			});
-		</script>
-
-					<select id="classOfStudent" class="classOfStudent">
-					<option disabled selected value value="base">Choose Class</option>
-					<option id="fy_a" value="FY_A" >FY Group A</option>
-					<option id="fy_b" value="FY_B" >FY Group B</option>
-					<option id="s_y" value="SY" >SY</option>
-					<option id="t_y" value="TY" >TY</option>
-					<option id="l_y" value="LY" >LY</option>
-					<option id="mt_c" value="MTech Comp" >MTech Comp</option>
-					<option id="mt_i" value="MTech IT" >MTech IT</option>
-					<option id="mt_e" value="MTech ETRX" >MTech ETRX</option>
-					<option id="mt_ex" value="MTech EXTC" >MTech EXTC</option>
-					<option id="mt_m" value="MTech Mech" >MTech Mech</option>
-				</select>
-
-				<script type="text/javascript">
-					$(".classOfStudent").change( function() {
-
-				document.getElementById('a').style.display = 'none';
-				document.getElementById('b').style.display = 'none';
-				document.getElementById('c').style.display = 'none';
-				document.getElementById('d').style.display = 'none';
-				document.getElementById('e').style.display = 'none';
-				document.getElementById('f').style.display = 'none';
-				document.getElementById('g').style.display = 'none';
-				document.getElementById('h').style.display = 'none';
-				document.getElementById('i').style.display = 'none';
-				document.getElementById('j').style.display = 'none';
-
-    			var opt = $(this).children("option:selected").val();
-				if(opt=='SY' || opt=='TY' || opt=='LY')
-				{
-					document.getElementById('a').style.display = 'block';
-					document.getElementById('b').style.display = 'block';
-				}
-				else if(opt=='MTech Comp' || opt=='MTech IT' || opt=='MTech ETRX' || opt=='MTech EXTC' || opt=='MTech Mech')
-				{
-					document.getElementById('a').style.display = 'block';
-				}
-				else
-				{
-					document.getElementById('a').style.display = 'block';
-					document.getElementById('b').style.display = 'block';
-					document.getElementById('c').style.display = 'block';
-					document.getElementById('d').style.display = 'block';
-					document.getElementById('e').style.display = 'block';
-					document.getElementById('f').style.display = 'block';
-					document.getElementById('g').style.display = 'block';
-					document.getElementById('h').style.display = 'block';
-					document.getElementById('i').style.display = 'block';
-					document.getElementById('j').style.display = 'block';
-				}
-			});
-				</script>
+										<select id="classOfStudent">
+											<option disabled selected value value="base">Choose Class</option>
+											<option value="FY_A" <?php if($dept_id!=6){ ?> hidden <?php } ?>>FY Group A</option>
+											<option value="FY_B" <?php if($dept_id!=6){ ?> hidden <?php } ?>>FY Group B</option>
+											<option value="SY" <?php if($dept_id==6){ ?> hidden <?php } ?>>SY</option>
+											<option value="TY" <?php if($dept_id==6){ ?> hidden <?php } ?>>TY</option>
+											<option value="LY" <?php if($dept_id==6){ ?> hidden <?php } ?>>LY</option>
+											<option value="MTech Comp" <?php if($dept_id!=1){ ?> hidden <?php } ?>>MTech Comp</option>
+											<option value="MTech IT" <?php if($dept_id!=2){ ?> hidden <?php } ?>>MTech IT</option>
+											<option value="MTech ETRX" <?php if($dept_id!=3){ ?> hidden <?php } ?>>MTech ETRX</option>
+											<option value="MTech EXTC" <?php if($dept_id!=4){ ?> hidden <?php } ?>>MTech EXTC</option>
+											<option value="MTech Mech" <?php if($dept_id!=5){ ?> hidden <?php } ?>>MTech Mech</option>
+										</select>
 										<select id="sectionOFStudent">
 											<option disabled selected value value="base">Choose Section</option>
 											<option value="All">All</option>
-											<option id="a" value="A">A</option>
-											<option id="b" value="B">B</option>
-											<option id="c" value="C">C</option>
-											<option id="d" value="D">D</option>
-											<option id="e" value="E">E</option>
-											<option id="f" value="F">F</option>
-											<option id="g" value="G">G</option>
-											<option id="h" value="H">H</option>
-											<option id="i" value="I">I</option>
-											<option id="j" value="J">J</option>										
+											<option value="A" >A</option>
+											<option value="B" >B</option>
+											<option value="C" <?php if($dept_id!=6){ ?> hidden <?php } ?>>C</option>
+											<option value="D" <?php if($dept_id!=6){ ?> hidden <?php } ?>>D</option>
+											<option value="E" <?php if($dept_id!=6){ ?> hidden <?php } ?>>E</option>
+											<option value="F" <?php if($dept_id!=6){ ?> hidden <?php } ?>>F</option>
+											<option value="G" <?php if($dept_id!=6){ ?> hidden <?php } ?>>G</option>
+											<option value="H" <?php if($dept_id!=6){ ?> hidden <?php } ?>>H</option>
+											<option value="I" <?php if($dept_id!=6){ ?> hidden <?php } ?>>I</option>
+											<option value="J" <?php if($dept_id!=6){ ?> hidden <?php } ?>>J</option>										
 										</select>
 									</b>
 									<button id="getDataOfStudent">Get Data</button>
@@ -3611,7 +3073,7 @@ function mail(){
 											var s=e.options[e.selectedIndex].value;
 											var f = document.getElementById("sectionOFStudent");
 											var a=f.options[f.selectedIndex].value;
-											var z = document.getElementById("deptOfStudent").value;
+
 											if(e.selectedIndex<=0 || f.selectedIndex<=0){
 												alert("Select section and class!");
 											}
@@ -3623,8 +3085,7 @@ function mail(){
 													{
 														table4:1,
 														section:a,
-														class:s,
-														dept_id:z
+														class:s
 
 													},
 
@@ -3652,7 +3113,7 @@ function mail(){
 						<div class="tab-pane fade" style="text-align: center;" id="tab2_student">
 							<h2><b>Add Student</b></h2>
 							<p><h3>Upload CSV file to load student data. The CSV file must contain columns in the following order:<br>
-								RollNo, FirstName, MiddleName, LastName, Email, Password, Department ID, class, semester, batch, section, electiveID, electiveBatchID<br>
+								RollNo, FirstName, MiddleName, LastName, Email, Password, Department ID, class, semester, batch, section, elective_or_IDC_ID, elective_or_IDC_BatchID<br>
 								<a href="../skeletonCSV/student_skeleton.csv" download="student.csv">Download Skeleton CSV</a></h3></p>
 								<form class="form-style-9" enctype="multipart/form-data" id="stu_form" style="text-align: center;">
 									<label class="field-style field-full align-none"><h3>Choose CSV File</h3></label><br><br>
@@ -3664,26 +3125,18 @@ function mail(){
 							<div class="tab-pane fade" id="tab3_student">
 								<form class="form-style-9" id="deleteStudent_form">
 									<div class="form-group">
-										<select id="deptOfStudent2" name="dept_id">
-											<option disabled selected value value="base">Choose Department</option>			
-											<option value="1">Computers</option>
-											<option value="2">IT</option>
-											<option value="3">ETRX</option>
-											<option value="4">EXTC</option>
-											<option value="5">Mechanical</option>
-											<option value="6">S & H</option>			
-										</select>
 										<select name="class">
 											<option disabled selected value value="base">Choose Class</option>
-											<option value="FY">FY</option>
-											<option value="SY">SY</option>
-											<option value="TY">TY</option>
-											<option value="LY">LY</option>
-											<option value="MTech Comp">MTech Comp</option>
-											<option value="MTech IT">MTech IT</option>
-											<option value="MTech ETRX">MTech ETRX</option>
-											<option value="MTech EXTC">MTech EXTC</option>
-											<option value="MTech Mech">MTech Mech</option>
+											<option value="FY_A" <?php if($dept_id!=6){ ?> hidden <?php } ?>>FY Group A</option>
+											<option value="FY_B" <?php if($dept_id!=6){ ?> hidden <?php } ?>>FY Group B</option>
+											<option value="SY" <?php if($dept_id==6){ ?> hidden <?php } ?>>SY</option>
+											<option value="TY" <?php if($dept_id==6){ ?> hidden <?php } ?>>TY</option>
+											<option value="LY" <?php if($dept_id==6){ ?> hidden <?php } ?>>LY</option>
+											<option value="MTech Comp" <?php if($dept_id!=1){ ?> hidden <?php } ?>>MTech Comp</option>
+											<option value="MTech IT" <?php if($dept_id!=2){ ?> hidden <?php } ?>>MTech IT</option>
+											<option value="MTech ETRX" <?php if($dept_id!=3){ ?> hidden <?php } ?>>MTech ETRX</option>
+											<option value="MTech EXTC" <?php if($dept_id!=4){ ?> hidden <?php } ?>>MTech EXTC</option>
+											<option value="MTech Mech" <?php if($dept_id!=5){ ?> hidden <?php } ?>>MTech Mech</option>
 										</select>
 									</div> 
 									<button  id="deleteStudent"type="button" name="delete" value="1" class="btn-primary">Remove Students</button>
@@ -3694,50 +3147,83 @@ function mail(){
 								<p>
 									<h3>
 										<div class="form-group">
-											<select name="dept" id="deptOfStudent3">
-												<option disabled selected value value="base">Choose Department</option>			
-												<option value="1">Computers</option>
-												<option value="2">IT</option>
-												<option value="3">ETRX</option>
-												<option value="4">EXTC</option>
-												<option value="5">Mechanical</option>
-												<option value="6">S & H</option>			
-											</select>
-											<select name="class" id="student_class">
+											<select name="class" id="student_class" class="select_class3">
 												<option disabled selected value value="base">Choose Class</option>
-												<option value="FY">FY</option>
-												<option value="SY">SY</option>
-												<option value="TY">TY</option>
-												<option value="LY">LY</option>
-												<option value="MTech Comp">MTech Comp</option>
-												<option value="MTech IT">MTech IT</option>
-												<option value="MTech ETRX">MTech ETRX</option>
-												<option value="MTech EXTC">MTech EXTC</option>
-												<option value="MTech Mech">MTech Mech</option>
+												<option value="FY_A" <?php if($dept_id!=6){ ?> hidden <?php } ?>>FY Group A</option>
+												<option value="FY_B" <?php if($dept_id!=6){ ?> hidden <?php } ?>>FY Group B</option>
+												<option value="SY" <?php if($dept_id==6){ ?> hidden <?php } ?>>SY</option>
+												<option value="TY" <?php if($dept_id==6){ ?> hidden <?php } ?>>TY</option>
+												<option value="LY" <?php if($dept_id==6){ ?> hidden <?php } ?>>LY</option>
+												<option value="MTech Comp" <?php if($dept_id!=1){ ?> hidden <?php } ?>>MTech Comp</option>
+												<option value="MTech IT" <?php if($dept_id!=2){ ?> hidden <?php } ?>>MTech IT</option>
+												<option value="MTech ETRX" <?php if($dept_id!=3){ ?> hidden <?php } ?>>MTech ETRX</option>
+												<option value="MTech EXTC" <?php if($dept_id!=4){ ?> hidden <?php } ?>>MTech EXTC</option>
+												<option value="MTech Mech" <?php if($dept_id!=5){ ?> hidden <?php } ?>>MTech Mech</option>
 											</select>
 											<select name="section" id="student_section">
 												<option disabled selected value value="base">Choose Section</option>
-												<option value="A">A</option>
-												<option value="B">B</option>
-												<option value="C">C</option>
-												<option value="D">D</option>
-												<option value="E">E</option>
-												<option value="F">F</option>
-												<option value="G">G</option>
-												<option value="H">H</option>
-												<option value="I">I</option>
-												<option value="J">J</option>                        
+
+												<option value="A" >A</option>
+												<option value="B" >B</option>
+												<option value="C" <?php if($dept_id!=6){ ?> hidden <?php } ?>>C</option>
+												<option value="D" <?php if($dept_id!=6){ ?> hidden <?php } ?>>D</option>
+												<option value="E" <?php if($dept_id!=6){ ?> hidden <?php } ?>>E</option>
+												<option value="F" <?php if($dept_id!=6){ ?> hidden <?php } ?>>F</option>
+												<option value="G" <?php if($dept_id!=6){ ?> hidden <?php } ?>>G</option>
+												<option value="H" <?php if($dept_id!=6){ ?> hidden <?php } ?>>H</option>
+												<option value="I" <?php if($dept_id!=6){ ?> hidden <?php } ?>>I</option>
+												<option value="J" <?php if($dept_id!=6){ ?> hidden <?php } ?>>J</option>                       
 											</select>
-											<select name="section" id="student_sem">
+											<script type="text/javascript">
+												$(".select_class3").change( function() {
+													document.getElementById('fy1_3').style.display = 'none';
+													document.getElementById('sy1_3').style.display = 'none';
+													document.getElementById('ty1_3').style.display = 'none';
+													document.getElementById('ly1_3').style.display = 'none';
+													document.getElementById('fy2_3').style.display = 'none';
+													document.getElementById('sy2_3').style.display = 'none';
+													document.getElementById('ty2_3').style.display = 'none';
+													document.getElementById('ly2_3').style.display = 'none';
+													var op = $(this).children("option:selected").val();
+													if(op=='FY_A'||op=='FY_B')
+													{
+														document.getElementById('fy1_3').style.display = 'block';
+														document.getElementById('fy2_3').style.display = 'block';
+													}
+													else if(op=='SY')
+													{
+														document.getElementById('sy1_3').style.display = 'block';
+														document.getElementById('sy2_3').style.display = 'block';
+													}
+													else if(op=='TY')
+													{
+														document.getElementById('ty1_3').style.display = 'block';
+														document.getElementById('ty2_3').style.display = 'block';
+
+													}
+													else if(op=='LY')
+													{
+														document.getElementById('ly1_3').style.display = 'block';
+														document.getElementById('ly2_3').style.display = 'block';
+													}
+													else
+													{
+														document.getElementById('fy1_3').style.display = 'block';
+														document.getElementById('fy2_3').style.display = 'block';
+													}
+												});
+											</script>
+
+											<select id="sem">
 												<option disabled selected value value="base">Choose Semester</option>
-												<option value="1">1</option>
-												<option value="2">2</option>
-												<option value="3">3</option>
-												<option value="4">4</option>
-												<option value="5">5</option>
-												<option value="6">6</option>
-												<option value="7">7</option>
-												<option value="8">8</option>
+												<option value="1" id="fy1_3" style="display: none;">Semester 1</option>
+												<option value="2" id="fy2_3" style="display: none;">Semester 2</option>
+												<option value="3" id="sy1_3" style="display: none;">Semester 3</option>
+												<option value="4" id="sy2_3" style="display: none;">Semester 4</option>
+												<option value="5" id="ty1_3" style="display: none;">Semester 5</option>
+												<option value="6" id="ty2_3" style="display: none;">Semester 6</option>
+												<option value="7" id="ly1_3" style="display: none;">Semester 7</option>
+												<option value="8" id="ly2_3" style="display: none;">Semester 8</option>
 											</select>
 										</div> 
 										<button class="btn-primary" id="exportCSV">GET SKELETON CSV</button></h3></p>
@@ -3752,41 +3238,83 @@ function mail(){
 
 											<div class="table-title" style="width: 100%;"><b style="font-size: 30px; ">Student Attendance Details</b> 
 												<div class="form-group">
-													<select name="class" id="student_class2">
+													<select name="class" id="student_class2" class="select_class4">
 														<option disabled selected value value="base">Choose Class</option>
-														<option value="FY">FY</option>
-														<option value="SY">SY</option>
-														<option value="TY">TY</option>
-														<option value="LY">LY</option>
-														<option value="MTech Comp">MTech Comp</option>
-														<option value="MTech IT">MTech IT</option>
-														<option value="MTech ETRX">MTech ETRX</option>
-														<option value="MTech EXTC">MTech EXTC</option>
-														<option value="MTech Mech">MTech Mech</option>
+														<option value="FY_A" <?php if($dept_id!=6){ ?> hidden <?php } ?>>FY Group A</option>
+														<option value="FY_B" <?php if($dept_id!=6){ ?> hidden <?php } ?>>FY Group B</option>
+														<option value="SY" <?php if($dept_id==6){ ?> hidden <?php } ?>>SY</option>
+														<option value="TY" <?php if($dept_id==6){ ?> hidden <?php } ?>>TY</option>
+														<option value="LY" <?php if($dept_id==6){ ?> hidden <?php } ?>>LY</option>
+														<option value="MTech Comp" <?php if($dept_id==6){ ?> hidden <?php } ?>>MTech Comp</option>
+														<option value="MTech IT" <?php if($dept_id==6){ ?> hidden <?php } ?>>MTech IT</option>
+														<option value="MTech ETRX" <?php if($dept_id==6){ ?> hidden <?php } ?>>MTech ETRX</option>
+														<option value="MTech EXTC" <?php if($dept_id==6){ ?> hidden <?php } ?>>MTech EXTC</option>
+														<option value="MTech Mech" <?php if($dept_id==6){ ?> hidden <?php } ?>>MTech Mech</option>
 													</select>
 													<select name="section" id="student_section2">
 														<option disabled selected value value="base">Choose Section</option>
-														<option value="A">A</option>
-														<option value="B">B</option>
-														<option value="C">C</option>
-														<option value="D">D</option>
-														<option value="E">E</option>
-														<option value="F">F</option>
-														<option value="G">G</option>
-														<option value="H">H</option>
-														<option value="I">I</option>
-														<option value="J">J</option>                        
+
+														<option value="A" >A</option>
+														<option value="B" >B</option>
+														<option value="C" <?php if($dept_id!=6){ ?> hidden <?php } ?>>C</option>
+														<option value="D" <?php if($dept_id!=6){ ?> hidden <?php } ?>>D</option>
+														<option value="E" <?php if($dept_id!=6){ ?> hidden <?php } ?>>E</option>
+														<option value="F" <?php if($dept_id!=6){ ?> hidden <?php } ?>>F</option>
+														<option value="G" <?php if($dept_id!=6){ ?> hidden <?php } ?>>G</option>
+														<option value="H" <?php if($dept_id!=6){ ?> hidden <?php } ?>>H</option>
+														<option value="I" <?php if($dept_id!=6){ ?> hidden <?php } ?>>I</option>
+														<option value="J" <?php if($dept_id!=6){ ?> hidden <?php } ?>>J</option>                       
 													</select>
-													<select name="section" id="student_sem2">
+													<script type="text/javascript">
+														$(".select_class4").change( function() {
+															document.getElementById('fy1_4').style.display = 'none';
+															document.getElementById('sy1_4').style.display = 'none';
+															document.getElementById('ty1_4').style.display = 'none';
+															document.getElementById('ly1_4').style.display = 'none';
+															document.getElementById('fy2_4').style.display = 'none';
+															document.getElementById('sy2_4').style.display = 'none';
+															document.getElementById('ty2_4').style.display = 'none';
+															document.getElementById('ly2_4').style.display = 'none';
+															var op = $(this).children("option:selected").val();
+															if(op=='FY_A'||op=='FY_B')
+															{
+																document.getElementById('fy1_4').style.display = 'block';
+																document.getElementById('fy2_4').style.display = 'block';
+															}
+															else if(op=='SY')
+															{
+																document.getElementById('sy1_4').style.display = 'block';
+																document.getElementById('sy2_4').style.display = 'block';
+															}
+															else if(op=='TY')
+															{
+																document.getElementById('ty1_4').style.display = 'block';
+																document.getElementById('ty2_4').style.display = 'block';
+
+															}
+															else if(op=='LY')
+															{
+																document.getElementById('ly1_4').style.display = 'block';
+																document.getElementById('ly2_4').style.display = 'block';
+															}
+															else
+															{
+																document.getElementById('fy1_4').style.display = 'block';
+																document.getElementById('fy2_4').style.display = 'block';
+															}
+														});
+													</script>
+
+													<select id="sem">
 														<option disabled selected value value="base">Choose Semester</option>
-														<option value="1">1</option>
-														<option value="2">2</option>
-														<option value="3">3</option>
-														<option value="4">4</option>
-														<option value="5">5</option>
-														<option value="6">6</option>
-														<option value="7">7</option>
-														<option value="8">8</option>
+														<option value="1" id="fy1" style="display: none;">Semester 1</option>
+														<option value="2" id="fy2" style="display: none;">Semester 2</option>
+														<option value="3" id="sy1" style="display: none;">Semester 3</option>
+														<option value="4" id="sy2" style="display: none;">Semester 4</option>
+														<option value="5" id="ty1" style="display: none;">Semester 5</option>
+														<option value="6" id="ty2" style="display: none;">Semester 6</option>
+														<option value="7" id="ly1" style="display: none;">Semester 7</option>
+														<option value="8" id="ly2" style="display: none;">Semester 8</option>
 													</select>
 												</div> 
 												<button id="getAttendance" class="btn-primary">Get Attendance</button>
@@ -3927,15 +3455,7 @@ function mail(){
 									<div style="width: 100%;"   class="tab-content">
 										<div style="width: 100%;"  class="tab-pane fade in active" style="text-align: center;" id="tab1_faculty">
 											<div style="width: 100%;"   id="showFaculty">
-												<select id="deptOfFaculty" onchange="openAddFacultyOfDept()" style="color: red; font-size: 20px;">
 
-													<option value="1">Computers</option>
-													<option value="2">IT</option>
-													<option value="3">ETRX</option>
-													<option value="4">EXTC</option>
-													<option value="5">Mechanical</option>
-													<option value="6">S & H</option>			
-												</select>
 												<div class="table-title" style="width: 100%;"><b style="font-size: 30px; ">Faculty Details</b> 
 													<button id="addnew5" type="button" class="add-new"><i class="fa fa-plus"></i> Add New</button>
 												</div>
@@ -4012,6 +3532,5 @@ function mail(){
 					<!--Outer div ends-->
 				</body>
 				</html>
-
 
 

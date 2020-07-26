@@ -19,30 +19,15 @@ if(isset($_POST['idtoken'])){
 		$_SESSION['email']=$payload['email'];
 		$email=$_SESSION['email'];
 
-		$sql_admin = $conn->prepare("SELECT adminEmail from admintable where adminEmail = ?");
-		$sql_admin->bind_param("s",$email);
-		$sql_admin->execute();
-		$result_admin = $sql_admin->get_result();
-
-
-		$sql_hod = $conn->prepare("SELECT dept_id FROM hodtable where email = ?");
-		$sql_hod->bind_param("s",$email);
-		$sql_hod->execute();
-		$result_hod = $sql_hod->get_result();
-
-
-		$sql_faculty = $conn->prepare("SELECT dept_id FROM department where email = ?");
-		$sql_faculty->bind_param("s",$email);
-		$sql_faculty->execute();
-		$result_faculty = $sql_faculty->get_result();
-
-
-		$sql_student = $conn->prepare("SELECT fname,lname,roll_no,dept_id,batch,class,sem,section FROM student where email = ?");
-		$sql_student->bind_param("s",$email);
-		$sql_student->execute();
-		$result_student = $sql_student->get_result();
+		$sql_admin = "SELECT adminEmail from admintable where adminEmail = '$email'";
+		$result_admin = $conn->query($sql_admin);
 		
-
+		$sql_hod = "SELECT dept_id FROM hodtable where email='$email'";
+		$result_hod = $conn->query($sql_hod);
+		$sql_faculty = "SELECT dept_id FROM department where email='$email'";
+		$result_faculty = $conn->query($sql_faculty);
+		$sql_student = "SELECT roll_no,dept_id,batch,class,sem,section FROM student where email='$email'";
+		$result_student = $conn->query($sql_student);
 
  		//checking for admin
 		if ($result_admin->num_rows > 0) {
@@ -108,33 +93,17 @@ else{
 	$password=$_POST['password'];
 	$email=$_SESSION['email'];
 
-	$sql_admin = $conn->prepare("SELECT adminEmail from admintable where adminEmail = ? and adminPassword = ?");
-	$sql_admin->bind_param("ss",$email,$password);
-	$sql_admin->execute();
-	$result_admin = $sql_admin->get_result();
+	$sql_admin = "SELECT adminEmail from admintable where adminEmail = '$email' and adminPassword = '$password'";
+	$result_admin = $conn->query($sql_admin);
+	$sql_hod = "SELECT dept_id FROM hodtable where email='$email'and password='$password'";
+	$result_hod = $conn->query($sql_hod);
+	$sql_faculty = "SELECT dept_id FROM department where email='$email'and password='$password'";
+	$result_faculty = $conn->query($sql_faculty);
+	$sql_student = "SELECT fname,lname,roll_no,dept_id,batch,class,sem,section FROM student where email='$email'and pass='$password'";
+	$result_student = $conn->query($sql_student);
 
 
-	$sql_hod = $conn->prepare("SELECT dept_id FROM hodtable where email = ? and password = ?");
-	$sql_hod->bind_param("ss",$email,$password);
-	$sql_hod->execute();
-	$result_hod = $sql_hod->get_result();
-
-
-	$sql_faculty = $conn->prepare("SELECT dept_id FROM department where email = ? and password = ?");
-	$sql_faculty->bind_param("ss",$email,$password);
-	$sql_faculty->execute();
-	$result_faculty = $sql_faculty->get_result();
-
-
-	$sql_student = $conn->prepare("SELECT fname,lname,roll_no,dept_id,batch,class,sem,section FROM student where email = ? and pass = ?");
-	$sql_student->bind_param("ss",$email,$password);
-	$sql_student->execute();
-	$result_student = $sql_student->get_result();
-
-	
-
-
-    //checking for admin
+        //checking for admin
 	if ($result_admin->num_rows > 0) {
 
 		$_SESSION['user']="ADMIN";
@@ -153,8 +122,6 @@ else{
 			$_SESSION['dept_id']=$dept_id;
 			header("Location: ../dashboards/dept_hod_dashboard.php");
 		}
-
-        //checking for dept cood
 	else if ($result_faculty->num_rows > 0) {
 		while($row_faculty = $result_faculty->fetch_assoc()) {
 			$dept_id=$row_faculty['dept_id'];

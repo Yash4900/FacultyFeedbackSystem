@@ -13,8 +13,53 @@ $sem=$_POST['sem'];
 
 
 ?>
+<div style="margin: 20px;">
+<button id="button_print"  class="btn btn-success" onclick="printDataSummary()" align="center">Print</button>
+<script>
+  function printDataSummary()
+  {
+   var divToPrint=document.getElementById("overall_course_feedback_table");
+   if(divToPrint.style.display!="none"){
+   newWin= window.open("");
+   newWin.document.write(divToPrint.outerHTML);
+   newWin.document.write("<head><style>@media print{ table{border-collapse: collapse;} table, .ca, th{ border:1px solid #000; text-align:center;} .la{ border:1px solid #000; text-align:left;}</style></head>")
+   newWin.print();
+   newWin.close();
+   }else{
+    alert("Table is empty");
+   }
+ }
 
-<table id="6" class="table table-bordered">
+ $('#button_print').on('click',function(){
+  printDataSummary();
+});
+</script>
+
+<!-- Download as Exccel -->
+<button id="overall_course_export_excel"  class="btn btn-success" align="center">Download as excel file</button>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="../scripts/xlsx.full.min.js"></script>
+<script src="../scripts/FileSaver.min.js"></script>
+<script type="text/javascript">
+
+var wb = XLSX.utils.table_to_book(document.getElementById("overall_course_feedback_table"),{sheet:"Summary Report"});
+var wbout = XLSX.write(wb, {bookType:'xlsx',  type: 'binary'});
+function s2ab(s) { 
+                var buf = new ArrayBuffer(s.length); //convert s to arrayBuffer
+                var view = new Uint8Array(buf);  //create uint8array as viewer
+                for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF; //convert to octet
+                return buf;    
+}
+$("#overall_course_export_excel").click(function(){
+       saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), '<?php echo $year."_"."$sem"."_Overall_CourseReport"; ?>.xlsx');
+});      
+//       $( "[id$=sumrep_export_excel]" ).click(function(e) {   
+//   window.open('data:application/vnd.ms-excel,' + $('div[id$=summary_report_table]').html());
+//   e.preventDefault();
+// });
+</script>
+</div>
+<table id="overall_course_feedback_table" class="table table-bordered">
   <thead>
     <tr>  
       <th style="text-align: center;">Course Code</th>
@@ -134,9 +179,9 @@ while($row1=$res1->fetch_assoc()){
 
 <tr id="swacr">
     
-    <td id="ccode"><?= $course_code ?></td>
-    <td id="cname"><?= $c_name ?></td>
-    <td id="ctype"><?= $ct ?></td>
+    <td class="ca" id="ccode"><?= $course_code ?></td>
+    <td class="ca"  id="cname"><?= $c_name ?></td>
+    <td class="ca"  id="ctype"><?= $ct ?></td>
     <td class="ca" id="avgmid"><?php if($avg_mid>0){echo number_format((float)($avg_mid), 2,'.','');}else{ echo '-';} ?></td>
     <td class="ca" id="avgend"><?php if($avg_end>0){echo number_format((float)($avg_end), 2,'.','');}else{ echo '-';} ?></td>
     <td class="ca" id="avg"><?php if($avg_mid==0 && $avg_end>0){echo number_format((float)($avg_end), 2,'.','');}elseif($avg_end==0 && $avg_mid>0){echo number_format((float)($avg_mid), 2,'.','');}elseif($avg_mid+$avg_end==0){echo "-";}else{echo number_format((float)(($avg_end+$avg_mid))/2, 2,'.','');} ?></td>
@@ -252,9 +297,9 @@ while($rowE=$resE->fetch_assoc()){
 
 <tr id="swacr">
     
-    <td id="ccode"><?= $course_code ?></td>
-    <td id="cname"><?= $c_name." (Ele/IDC/Au)" ?></td>
-    <td id="ctype"><?= $ct ?></td>
+    <td class="ca" id="ccode"><?= $course_code ?></td>
+    <td class="ca"  id="cname"><?= $c_name." (Ele/IDC/Au)" ?></td>
+    <td class="ca"  id="ctype"><?= $ct ?></td>
     <td class="ca" id="avgmid"><?php if($avg_mid>0){echo number_format((float)($avg_mid), 2,'.','');}else{ echo '-';} ?></td>
     <td class="ca" id="avgend"><?php if($avg_end>0){echo number_format((float)($avg_end), 2,'.','');}else{ echo '-';} ?></td>
     <td class="ca" id="avg"><?php if($avg_mid==0 && $avg_end>0){echo number_format((float)($avg_end), 2,'.','');}elseif($avg_end==0 && $avg_mid>0){echo number_format((float)($avg_mid), 2,'.','');}elseif($avg_mid+$avg_end==0){echo "-";}else{echo number_format((float)(($avg_end+$avg_mid))/2, 2,'.','');} ?></td>
@@ -271,7 +316,7 @@ while($rowE=$resE->fetch_assoc()){
 </table>
 
 <!-- Print Table -->
-<button id="button_print_swac"  class="btn btn-success" onclick="printDataSummarySWAC()">Print</button>
+<!-- <button id="button_print_swac"  class="btn btn-success" onclick="printDataSummarySWAC()">Print</button>
 <script>
 
   function printDataSummarySWAC()
@@ -289,7 +334,7 @@ while($rowE=$resE->fetch_assoc()){
 });
 </script>
 
-<!-- Download as Excel -->
+Download as Excel
 <button id="swac_export_excel"  class="btn btn-success" onclick="swacExport()">Download as excel file</button>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="https://cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
@@ -300,4 +345,4 @@ while($rowE=$resE->fetch_assoc()){
             });
         }
     </script>
-
+-->
