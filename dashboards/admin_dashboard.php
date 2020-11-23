@@ -2990,6 +2990,7 @@ function mail(){
 				{
 					document.getElementById('fy1').style.display = 'block';
 					document.getElementById('fy2').style.display = 'block';
+					document.getElementById('sy1').style.display = 'block';
 				}
 			});
 		</script>
@@ -3262,6 +3263,7 @@ function mail(){
 				{
 					document.getElementById('fy11').style.display = 'block';
 					document.getElementById('fy22').style.display = 'block';
+					document.getElementById('sy11').style.display = 'block';
 				}
 			});
 		</script>

@@ -2653,6 +2653,8 @@ while($r=$res->fetch_assoc()){
 						{
 							document.getElementById('fy1').style.display = 'block';
 							document.getElementById('fy2').style.display = 'block';
+						    document.getElementById('sy1').style.display = 'block';
+
 						}
 					});
 				</script>
@@ -2842,6 +2844,7 @@ while($r=$res->fetch_assoc()){
 					{
 						document.getElementById('fy1_2').style.display = 'block';
 						document.getElementById('fy2_2').style.display = 'block';
+						document.getElementById('sy1_2').style.display = 'block';
 					}
 				});
 			</script>
@@ -3210,6 +3213,7 @@ while($r=$res->fetch_assoc()){
 													{
 														document.getElementById('fy1_3').style.display = 'block';
 														document.getElementById('fy2_3').style.display = 'block';
+														document.getElementById('sy1_3').style.display = 'block';
 													}
 												});
 											</script>
@@ -3301,20 +3305,21 @@ while($r=$res->fetch_assoc()){
 															{
 																document.getElementById('fy1_4').style.display = 'block';
 																document.getElementById('fy2_4').style.display = 'block';
+																document.getElementById('sy1_4').style.display = 'block';
 															}
 														});
 													</script>
 
 													<select id="sem">
 														<option disabled selected value value="base">Choose Semester</option>
-														<option value="1" id="fy1" style="display: none;">Semester 1</option>
-														<option value="2" id="fy2" style="display: none;">Semester 2</option>
-														<option value="3" id="sy1" style="display: none;">Semester 3</option>
-														<option value="4" id="sy2" style="display: none;">Semester 4</option>
-														<option value="5" id="ty1" style="display: none;">Semester 5</option>
-														<option value="6" id="ty2" style="display: none;">Semester 6</option>
-														<option value="7" id="ly1" style="display: none;">Semester 7</option>
-														<option value="8" id="ly2" style="display: none;">Semester 8</option>
+														<option value="1" id="fy1_4" style="display: none;">Semester 1</option>
+														<option value="2" id="fy2_4" style="display: none;">Semester 2</option>
+														<option value="3" id="sy1_4" style="display: none;">Semester 3</option>
+														<option value="4" id="sy2_4" style="display: none;">Semester 4</option>
+														<option value="5" id="ty1_4" style="display: none;">Semester 5</option>
+														<option value="6" id="ty2_4" style="display: none;">Semester 6</option>
+														<option value="7" id="ly1_4" style="display: none;">Semester 7</option>
+														<option value="8" id="ly2_4" style="display: none;">Semester 8</option>
 													</select>
 												</div> 
 												<button id="getAttendance" class="btn-primary">Get Attendance</button>
