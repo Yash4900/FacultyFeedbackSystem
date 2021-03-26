@@ -1,0 +1,86 @@
+body{
+  font-size: 18px;
+}
+table:not(#info_table)  {
+  border-spacing: 1;
+  border-collapse: collapse;
+  background: #36304a;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  color: black;
+  text-align: center;
+}
+table th:not(#info_table){
+  background: #800000;
+  color: white;
+  text-align: center;
+}
+table * :not(#info_table){
+  position: relative;
+}
+table td:not(#info_table), table th:not(#info_table) {
+  padding-left: 8px;
+  text-align: center;
+}
+table thead tr:not(#info_table) {
+  height: 60px;
+  background:  #FFF8DC;
+}
+table tbody tr:not(#info_table) {
+  height: 50px;
+  text-align: center;
+}
+table tbody tr:last-child:not(#info_table) {
+  border: 0;
+}
+table td, table th:not(#info_table) {
+  text-align: left;
+}
+table td.l, table th.l :not(#info_table){
+  text-align: right;
+}
+table td.c, table th.c:not(#info_table) {
+  text-align: center;
+}
+table td.r, table th.r:not(#info_table) {
+  text-align: center;
+}
+td:not(#info_table){
+  color: black;
+}
+th:not(#info_table){
+
+  font-size: 18px;
+  color: #fff;
+  line-height: 1.2;
+  font-weight: unset;
+}
+
+tbody tr:nth-child(even):not(#info_table) {
+  background-color: #f5f5f5;
+}
+
+tbody tr:not(#info_table) {
+
+  font-size: 15px;
+  color: white;
+  line-height: 1.2;
+  font-weight: unset;
+}
+
+
+button{
+  background: #A0522D;
+}
+
+input[type=checkbox]{
+ background-color: #d9534f;
+ border-color: #d9534f;
+ height: 30px;
+ width: 30px;
+ float: right;
+ margin-right: 35px;
+}
