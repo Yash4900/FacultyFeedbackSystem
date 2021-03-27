@@ -188,10 +188,10 @@ while($res2=$r2->fetch_assoc()):
 
       <td style="width: 50%; text-align: center; border:0.5px solid #162252 ;padding: 5px; background-color: #f5f5f5 ">
         <?php echo "<br><b>".$question."</b><br>"; ?>
-        <canvas id='<?php echo $cname. $section_or_batch.$q_id ?>' width="50%" height="180" ></canvas> 
+        <canvas id='<?php echo $c.$cname. $section_or_batch.$q_id ?>' width="50%" height="180" ></canvas> 
       </td>
       <script>
-        var my_canvas=document.getElementById(<?php echo json_encode($cname. $section_or_batch.$q_id)?>);
+        var my_canvas=document.getElementById(<?php echo json_encode($c.$cname. $section_or_batch.$q_id)?>);
         var gctx=my_canvas.getContext("2d");
 
         var noOfOptions=<?php echo json_encode($noOfOptions)?>;
@@ -432,10 +432,10 @@ else if($sem==7 or $sem==8)
 
     <td style="width: 50%; text-align: center; border:0.5px solid #162252 ;padding: 5px; background-color: #f5f5f5 ">
       <?php echo "<br><b>".$question."</b><br>";  ?>
-      <canvas id='<?php echo $electiveName. $electiveID.$q_id ?>' width="50%" height="180" ></canvas> 
+      <canvas id='<?php echo $c.$electiveName. $electiveID.$q_id ?>' width="50%" height="180" ></canvas> 
     </td>
     <script>
-      var my_canvas=document.getElementById(<?php echo json_encode($electiveName. $electiveID.$q_id)?>);
+      var my_canvas=document.getElementById(<?php echo json_encode($c.$electiveName. $electiveID.$q_id)?>);
       var gctx=my_canvas.getContext("2d");
 
       var noOfOptions=<?php echo json_encode($noOfOptions)?>;
